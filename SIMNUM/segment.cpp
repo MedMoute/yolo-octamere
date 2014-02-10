@@ -30,23 +30,23 @@ segment & segment::operator = (segment & seg) //operateur =
     //delete &S1;
     //delete &S2;
 
- pairsom pair=std::make_pair(S1, S2);
- pair.first;
 
-    S1 =(seg.getSommet()).first;
-    S2 = seg.getSommet().second;
+
+    S1.operator =( seg.getSommet().first);
+    S2.operator =( seg.getSommet().second);
     return * this;
-};
-float  longueur(const segment & seg)
+}
+
+float  segment::longueur(segment & seg)
 {
-    float l
-    S1= seg.getSommet().first;
-    S2= seg.getSommet().second;
-    x1= S1.Xcoord();
-    y1= S1.Ycoord();
-    x2= S2.Xcoord();
-    y2= S2.Ycoord();
-    l = sqrt((x2-x1)^2+(y2-y1)^2);;
+    float l;
+    S1.operator =( seg.getSommet().first);
+    S2.operator =( seg.getSommet().second);
+    float x1= S1.Xcoord();
+    float y1= S1.Ycoord();
+    float x2= S2.Xcoord();
+    float y2= S2.Ycoord();
+    l = sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));;
     return l;
 
 }

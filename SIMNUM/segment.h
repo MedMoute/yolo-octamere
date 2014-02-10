@@ -7,7 +7,7 @@
 
 
 class sommet;
-typedef std::pair<sommet, sommet> pairsom;
+typedef std::pair<sommet,sommet> pairsom;
 
 class segment
 {
@@ -21,7 +21,7 @@ public:
     segment(sommet A, sommet B);
     ~segment ();
     segment & operator = (segment & seg);
-    float  longueur(const segment & seg);
+    float  longueur(segment & seg);
 
 };
 

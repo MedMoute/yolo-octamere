@@ -12,7 +12,7 @@ public:
     sommet();
     sommet(float p, float q);
     ~sommet ();
-    sommet & operator = (sommet & S);
+    sommet & operator = (sommet S);
 
 
 };
