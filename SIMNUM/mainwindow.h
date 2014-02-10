@@ -22,9 +22,9 @@ private:
     Ui::MainWindow *ui;
 
 public slots:
-    void launchDataSearch();
-    /*void launchEnvironment();
-    void launchFullPlot();
+    void on_pushButton_2_clicked(); //Slot qui lance la recherche de fichiers --//Syntaxe pour que QtCreator reconnaisse le slot
+    void on_pushButton_3_clicked(); //Slot qui analyse le fichier txt et plot les obstacles
+    /*void launchFullPlot();
     void launchAlgorithm();
 
     void pointA_xChanged(double xA);
@@ -34,7 +34,7 @@ public slots:
 
 private:
     plotting* Plot;
-    QString  fileName;
+    QString fileName;
 };
 
 #endif // MAINWINDOW_H
