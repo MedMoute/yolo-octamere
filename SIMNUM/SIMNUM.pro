@@ -6,8 +6,7 @@
 
 QT       += core gui
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 TARGET = SIMNUM
 TEMPLATE = app
 
@@ -19,7 +18,9 @@ SOURCES += main.cpp\
     obstacle.cpp \
     environnement.cpp \
     arc.cpp \
-    graphe.cpp
+    graphe.cpp \
+    qcustomplot.cpp \
+    plotting.cpp
 
 HEADERS  += mainwindow.h \
     sommet.h \
@@ -27,6 +28,8 @@ HEADERS  += mainwindow.h \
     obstacle.h \
     environnement.h \
     arc.h \
-    graphe.h
+    graphe.h \
+    qcustomplot.h \
+    plotting.h
 
 FORMS    += mainwindow.ui
