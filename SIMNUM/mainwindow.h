@@ -16,7 +16,8 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    void setGraph(dataarray datas);
+    //void setGraph(dataarray datas);
+    //void setPlotting();
     
 private:
     Ui::MainWindow *ui;
@@ -31,6 +32,8 @@ public slots:
     void pointA_yChanged(double yA);
     void pointB_xChanged(double xB);
     void pointB_yChanged(double yB);*/
+
+    QString getFileName();
 
 private:
     plotting* Plot;

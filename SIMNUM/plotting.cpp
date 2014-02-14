@@ -1,21 +1,18 @@
 #include "plotting.h"
-#include <QFile>
-#include <QTextStream>
+#include <QDebug>
 
 plotting::plotting()
 {
+    this->obstacles = new environnement;
 }
 
-void plotting::setDatas(QString &path)
+void plotting::setDatas()
 {
-    QFile file(path);
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-           return;
+    //obstacles->setEnvironment(fileName);
+}
 
-    QTextStream in(&file);
-    while (!in.atEnd())
-    {
-        QString line = in.readLine();
-        //process_line(line);
-    }
+environnement* plotting::getObstacles()
+{
+    qDebug()<<&obstacles;
+    return obstacles;
 }

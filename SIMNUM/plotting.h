@@ -2,6 +2,7 @@
 #define PLOTTING_H
 
 #include "sommet.h"
+#include "environnement.h"
 #include <QPen>
 #include <QString>
 
@@ -15,12 +16,19 @@ public:
     void drawPolygon(sommet* point_ptr);
 
     dataarray* getDatas();
-    void setDatas(QString& path);
+    void setDatas();
+
+    QString getFileName();
+    void setFileName(QString);
+
+    environnement* getObstacles();
 
 private:
+    QString fileName;
     QPen pen;
     dataarray* datas;
-    std::vector<sommet> points;
+    environnement* obstacles;
+
 };
 
 

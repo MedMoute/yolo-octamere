@@ -1,10 +1,26 @@
 #ifndef ENVIRONNEMENT_H
 #define ENVIRONNEMENT_H
 
+#include "sommet.h"
+#include "segment.h"
+#include "obstacle.h"
+#include <vector>
+#include <QString>
+#include <iostream>
+#include <QFile>
+#include <QTextStream>
+
+
 class environnement
 {
 public:
     environnement();
+    void setEnvironment(QString path);
+    void setPoints(QString path);
+
+private:
+    obstacle* curObst;
+    std::vector<obstacle> Envir;
 };
 
 #endif // ENVIRONNEMENT_H
