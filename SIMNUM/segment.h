@@ -16,12 +16,13 @@ private :
     sommet S2;
 public:
 
-    pairsom getSommet();
+    pairsom getSommet() const;
     segment();
     segment(sommet A, sommet B);
     ~segment ();
-    segment & operator = (segment & seg);
+    segment & operator = (const segment & seg);
     float  longueur(segment & seg);
+    segment normale(segment & seg);
 
 };
 
