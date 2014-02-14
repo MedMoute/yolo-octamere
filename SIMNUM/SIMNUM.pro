@@ -33,3 +33,5 @@ HEADERS  += mainwindow.h \
     plotting.h
 
 FORMS    += mainwindow.ui
+
+-std=c++11
