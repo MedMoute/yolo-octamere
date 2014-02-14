@@ -21,8 +21,8 @@ public:
     segment(sommet A, sommet B);
     ~segment ();
     segment & operator = (const segment & seg);
-    float  longueur(segment & seg);
-    segment normale(segment & seg);
+    float longueur(const segment & seg);
+    segment normale(const segment & seg);
 
 };
 

@@ -1,5 +1,32 @@
 #include "arc.h"
+#include "segment.h"
 
-arc::arc()
+arc::arc() //constructeur par défaut
 {
+ segment seg;
+ l=seg.longueur(seg);
+}
+
+segment arc::getSegment() const //récupère les trucs dans private
+{
+    return seg;
+}
+
+arc::arc(segment segseg) //constructeur avec valeur
+{
+  segment seg=segseg;
+  l=seg.longueur(seg);
+}
+
+arc::~arc() //destructor
+{
+    delete [] &seg;
+    delete [] &l;
+}
+
+arc & arc::operator = (const arc & A) //opérateur =
+{
+    seg=A.getSegment();
+    l=seg.longueur(seg);
+    return * this;
 }

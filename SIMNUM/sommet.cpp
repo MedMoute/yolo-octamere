@@ -20,7 +20,7 @@ sommet::~sommet() //destructeur
      delete [] &y;
 }
 
-sommet & sommet::operator = (sommet  S) //operateur =
+sommet & sommet::operator = (sommet S) //operateur =
 {
     delete [] &x;
         x=S.Xcoord();

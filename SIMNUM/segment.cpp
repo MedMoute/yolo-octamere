@@ -27,18 +27,13 @@ segment::~segment() //destructeur
 
 segment & segment::operator = (const segment & seg) //operateur =
 {
-    //delete &S1;
-    //delete &S2;
-
-
-
     S1 = seg.getSommet().first;
     S2 = seg.getSommet().second;
 
     return * this;
 }
 
-float longueur(const segment & seg) //longueur d'un segment
+float segment::longueur(const segment & seg) //longueur d'un segment
 {
     float l;
     //Récupération des coordonnées
@@ -54,7 +49,7 @@ float longueur(const segment & seg) //longueur d'un segment
 
 }
 
-segment normale(const segment & seg) //normale au segment
+segment segment::normale(const segment & seg) //normale au segment
 {
     sommet S1 = seg.getSommet().first;
     sommet S2 = seg.getSommet().second;
