@@ -5,14 +5,14 @@ graphe::graphe() //constructeur par défaut
 
 }
 
-std::list<arc> graphe::getGraph() //
+std::list<arc> graphe::getGraph() //Michel est privé
 {
     return arcs;
 }
 
-graphe::graphe(graphe & grph) //constructeur par copie
+graphe::graphe(std::list<arc> arks) //constructeur par copie
 {
-  arcs=grph.getGraph();
+  arcs=arks;
 
 }
 

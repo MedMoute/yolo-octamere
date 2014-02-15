@@ -8,7 +8,7 @@ class graphe
 public:
     graphe();
     std::list<arc> getGraph();
-    graphe (graphe &grph); //Je me demande si ce jean-michel est vraiment nécessaire vu qu'on a déjà l'opérateur = (enfin je vais le faire)
+    graphe (std::list<arc> arks); //Je me demande si ce jean-michel est vraiment nécessaire vu qu'on a déjà l'opérateur = (enfin je vais le faire)
     ~graphe ();
     graphe & operator = (const graphe & grph);
 private :
