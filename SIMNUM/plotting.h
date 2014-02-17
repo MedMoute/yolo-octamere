@@ -3,6 +3,7 @@
 
 #include "sommet.h"
 #include "environnement.h"
+#include "qcustomplot.h"
 #include <QPen>
 #include <QString>
 
@@ -12,8 +13,9 @@ class plotting
 {
 public:
     plotting();
-    void drawLine(sommet p1,sommet p2);
-    void drawPolygon(sommet* point_ptr);
+    void drawPolygon(obstacle obst);
+
+    void drawEnvironment();
 
     dataarray* getDatas();
     void setDatas();
@@ -27,6 +29,7 @@ private:
     QString fileName;
     QPen pen;
     dataarray* datas;
+    QCustomPlot* mainPlot;
     environnement* obstacles;
 
 };

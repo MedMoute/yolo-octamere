@@ -18,6 +18,8 @@ public:
     void setEnvironment(QString path);
     void setPoints(QString path);
 
+    std::list<obstacle> getEnvir();
+
 private:
     obstacle curObst;
     std::list<obstacle> Envir;

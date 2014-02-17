@@ -25,8 +25,7 @@ QString MainWindow::getFileName()
 }
 void MainWindow::on_pushButton_3_clicked()
 {
-    qDebug()<<&Plot;
-    qDebug()<<"On est dans Mainwindow";
+
     Plot->getObstacles()->setEnvironment(this->getFileName());
 
     //Plot.drawPolygon();

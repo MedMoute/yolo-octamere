@@ -46,4 +46,7 @@ void environnement::setPoints(QString path)
     }
 }
 
-
+std::list<obstacle> environnement::getEnvir()
+{
+    return Envir;
+}
