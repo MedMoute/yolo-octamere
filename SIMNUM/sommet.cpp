@@ -12,20 +12,20 @@ sommet::sommet(float p, float q) //constructeur avec valeur
     y=q;
 }
 float & sommet::Xcoord()
-{return x;}
-float & sommet::Ycoord()
-{return y;}
-sommet::~sommet() //destructeur
-{ delete [] &x;
-     delete [] &y;
+{
+    return x;
 }
+float & sommet::Ycoord()
+{
+    return y;
+}
+sommet::~sommet() //destructeur
+{
+ }
 
 sommet & sommet::operator = (sommet S) //operateur =
 {
-    delete [] &x;
-        x=S.Xcoord();
-
-    delete[] &y;
-        y=S.Ycoord();
-
-    return * this;};
+          x=S.Xcoord();
+          y=S.Ycoord();
+    return * this;
+}

@@ -19,7 +19,7 @@ public:
     void setPoints(QString path);
 
 private:
-    obstacle* curObst;
+    obstacle curObst;
     std::list<obstacle> Envir;
 };
 

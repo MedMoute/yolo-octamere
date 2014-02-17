@@ -21,8 +21,7 @@ pairsom segment::getSommet() const
 }
 
 segment::~segment() //destructeur
-{ delete [] &S1;
-     delete [] &S2;
+{
 }
 
 segment & segment::operator = (const segment & seg) //operateur =

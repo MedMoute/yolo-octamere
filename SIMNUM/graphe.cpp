@@ -5,7 +5,7 @@ graphe::graphe() //constructeur par défaut
 
 }
 
-std::list<arc> graphe::getGraph() //Michel est privé
+std::list<arc> graphe::getGraph() const //Michel est privé
 {
     return arcs;
 }

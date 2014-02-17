@@ -5,41 +5,37 @@
 
 environnement::environnement()
 {
-    this->curObst = new obstacle;
 }
 
 void environnement::setEnvironment(QString path)
 {
+    qDebug()<<"On initialise l'environnement";
     setPoints(path);
 }
 
 void environnement::setPoints(QString path)
 {
-        qDebug()<<"On est dans Environnement";
     QFile file(path);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
         return;
-
-    std::list<sommet> sommets_tmp;
 
     QTextStream in(&file);
     while (!in.atEnd())
     {
         QString line = in.readLine();
 
-        int j=curObst->setSommetsFromTxt(line);
-
-        if (j==0)
+        int j=curObst.setSommetsFromTxt(line);
+        if (j==0) //On détecte un point
         {
+            qDebug()<<"Point détécté";
         }
-        else if (j==1)
+        else if (j==1)//On détecte le parser de fin d'obstacle
         {
-
-    /*
-     * Fin de l'obstacle
-     * Dump de curObst dans Envir
-    */
-
+            qDebug()<<"Fin de l'obstacle"; //Dump de curObst dans Envir
+            qDebug()<<"L'obstacle contient :"<<curObst.getSommet().size()<<" points.";
+            curObst.setSegmentsFromSommets();
+            Envir.push_back(curObst);
+            curObst.clear();
         }
         else
         {
@@ -48,7 +44,6 @@ void environnement::setPoints(QString path)
             return;
         }
     }
-    //qDebug()<<"test";
 }
 
 
