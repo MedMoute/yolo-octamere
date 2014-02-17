@@ -20,7 +20,7 @@ public:
 
 private:
     obstacle* curObst;
-    std::vector<obstacle> Envir;
+    std::list<obstacle> Envir;
 };
 
 #endif // ENVIRONNEMENT_H

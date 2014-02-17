@@ -15,15 +15,13 @@ void environnement::setEnvironment(QString path)
 
 void environnement::setPoints(QString path)
 {
+        qDebug()<<"On est dans Environnement";
     QFile file(path);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
         return;
 
-    std::vector<sommet>*sommets(0);
-    sommets =new std::vector<sommet>;
+    std::list<sommet> sommets_tmp;
 
-    std::vector<sommet>*sommets_tmp(0);
-    sommets_tmp =new std::vector<sommet>;
     QTextStream in(&file);
     while (!in.atEnd())
     {
@@ -37,29 +35,10 @@ void environnement::setPoints(QString path)
         else if (j==1)
         {
 
-            int l=curObst->getSommet().size();
-
-            for (int i=0;i<l;i++)
-            {
-                sommets_tmp->push_back(curObst->getSommet().back());
-                curObst->getSommet().pop_back();
-            }
-
-            l=sommets_tmp->size();
-
-            for (int i=0;i<l;i++)
-            {
-                sommets->push_back(sommets_tmp->back());
-                sommets_tmp->pop_back();
-                //qDebug()<<sommets->size();
-            }
-
-            std::vector<segment>*segments(0);
-            segments =new std::vector<segment>;
-
-            //obstacle obst(sommets,segments);
-            //Envir.push_back(obst);
-            qDebug()<<Envir.front().getSommet().front().Ycoord();
+    /*
+     * Fin de l'obstacle
+     * Dump de curObst dans Envir
+    */
 
         }
         else
@@ -69,7 +48,7 @@ void environnement::setPoints(QString path)
             return;
         }
     }
-    qDebug()<<"test";
+    //qDebug()<<"test";
 }
 
 

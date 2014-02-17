@@ -27,18 +27,19 @@ obstacle::~obstacle()
     segments.clear();
 }
 
-std::list<sommet> obstacle::getSommet()
+std::vector<sommet> obstacle::getSommet()
 {
     return sommets;
 }
 
-std::list<segment> obstacle::getSegment()
+std::vector<segment> obstacle::getSegment()
 {
     return segments;
 }
 
 int obstacle::setSommetsFromTxt(QString line)
 {
+        qDebug()<<"On est dans Obstacle";
     int code=-1;
     QRegularExpression RegNumbr("\([0-9]*[,\.]*[0-9]*;[0-9]*[,\.]*[0-9]*\)");
     QRegularExpression RegEndObs("#END_OBS");
@@ -67,19 +68,15 @@ int obstacle::setSommetsFromTxt(QString line)
         code=1;
     }
     else{}
-
     return code;
 }
 
 void obstacle::setSegmentsFromSommets()
 {
-    qDebug()<<"Test";
     for (unsigned int i=0;i<(sommets.size())-1;i++)
     {
-        qDebug()<<sommets.size();
         segment S;//(sommets,sommets[i+1]);
         segments.push_back(S);
-        qDebug()<<"Test";
         qDebug()<<segments.size();
     }
 }
