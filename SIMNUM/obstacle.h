@@ -20,7 +20,7 @@ public:
     std::vector<sommet> getSommet()const;
     std::vector<segment> getSegment()const;
 
-    int setSommetsFromTxt(QString line); //Teste une regex pour voir si la ligne correspond à un point - Retour le code suivant : 0=bon 1=fin d'obstacle "#FIN_OBS" -1 sinon.
+    int setSommetsFromTxt(QString & line); //Teste une regex pour voir si la ligne correspond à un point - Retour le code suivant : 0=bon 1=fin d'obstacle "#FIN_OBS" -1 sinon.
     void setSegmentsFromSommets();
     
     bool TestInside (const obstacle & Obs, const sommet S);

@@ -105,17 +105,44 @@ std::vector<segment> segments = Obs.getSegment();
 std::vector<segment> normales;
 std::vector<bool> tests;
 
-for (int i=0; i<(segments.size()); i++)
+float X=S.Xcoord();
+float Y=S.Ycoord();
+
+bool T;
+
+for ( unsigned int i=0; i<(segments.size()); i++)
     {
-    normales[i]= segment.normale((segments[i]));
+    normales[i]= (segments[i]).normale(segments[i]);
 
-    sommet A=segment.getSommet(normales[i]).first;
-    sommet B=segment.getSommet(nomales[i]).second;
+    sommet A=normales[i].getSommet().first;
+    sommet B=normales[i].getSommet().second;
 
-    tests[i]=
+    //Coordonnnées des deux sommets définissant le segment i
+    float x1=sommets[i].Xcoord();
+    float y1=sommets[i].Ycoord();
+    float x2=sommets[i+1].Xcoord();
+    float y2=sommets[i+1].Ycoord();
+
+    //Coordonnées des deux extrémités de la normale au segment i
+    float Xa=A.Xcoord();
+    float Ya=A.Ycoord();
+    float Xb=B.Xcoord();
+    float Yb=B.Ycoord();
+
+    //Calcul des produits scalaires
+    float P1=(x1-X)*(Xb-Xa)+(y1-Y)*(Yb-Ya);
+    float P2=(x2-X)*(Xb-Xa)+(y2-Y)*(Yb-Ya);
+
+    //Tests pour chaque segment de l'obstacle
+    tests[i]=(P1>0)&&(P2>0);
+
+    //Test final
+    if (tests[i]==true)
+    {T=true;}
+    else
+    {T=false;}
     }
 
-
+return T;
 }
 
-}

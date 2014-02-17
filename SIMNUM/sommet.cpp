@@ -11,11 +11,11 @@ sommet::sommet(float p, float q) //constructeur avec valeur
     x=p;
     y=q;
 }
-float & sommet::Xcoord()
+float sommet::Xcoord() const
 {
     return x;
 }
-float & sommet::Ycoord()
+float sommet::Ycoord() const
 {
     return y;
 }

@@ -7,8 +7,8 @@ private :
     float x;
     float y;
 public:
-    float & Xcoord();
-    float & Ycoord();
+    float Xcoord() const;
+    float Ycoord() const;
     sommet();
     sommet(float p, float q);
     ~sommet ();
