@@ -5,9 +5,13 @@
 #include <QString>
 #include "plotting.h"
 
+
 namespace Ui {
 class MainWindow;
 }
+
+
+class plotting;
 
 class MainWindow : public QMainWindow
 {
@@ -17,10 +21,13 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     //void setGraph(dataarray datas);
-    //void setPlotting();
-    
+    plotting* getPlotting();
+
 private:
+    QCustomPlot* customPlot;
     Ui::MainWindow *ui;
+   plotting* Plot;
+    QString fileName;
 
 public slots:
     void on_pushButton_2_clicked(); //Slot qui lance la recherche de fichiers --//Syntaxe pour que QtCreator reconnaisse le slot
@@ -35,9 +42,6 @@ public slots:
 
     QString getFileName();
 
-private:
-    plotting* Plot;
-    QString fileName;
 };
 
 #endif // MAINWINDOW_H

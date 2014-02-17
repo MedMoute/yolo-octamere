@@ -7,11 +7,18 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     this->Plot = new plotting;
+    Plot->setPlot(ui->customPlot);
+    Plot->initPlot();
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+plotting* MainWindow::getPlotting()
+{
+return Plot;
 }
 
 void MainWindow::on_pushButton_2_clicked()
@@ -27,6 +34,7 @@ void MainWindow::on_pushButton_3_clicked()
 {
 
     Plot->getObstacles()->setEnvironment(this->getFileName());
-
+    Plot->drawEnvironment();
+    Plot->resetEnvironment();
     //Plot.drawPolygon();
 }

@@ -17,6 +17,7 @@ public:
     environnement();
     void setEnvironment(QString path);
     void setPoints(QString path);
+    void resetEnviron();
 
     std::list<obstacle> getEnvir();
 

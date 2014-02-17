@@ -9,7 +9,6 @@ environnement::environnement()
 
 void environnement::setEnvironment(QString path)
 {
-    qDebug()<<"On initialise l'environnement";
     setPoints(path);
 }
 
@@ -49,4 +48,10 @@ void environnement::setPoints(QString path)
 std::list<obstacle> environnement::getEnvir()
 {
     return Envir;
+}
+
+void environnement::resetEnviron()
+{
+    curObst.clear();
+    Envir.clear();
 }
