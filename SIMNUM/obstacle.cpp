@@ -97,3 +97,25 @@ void obstacle::convertToPointDecimal(QString& str)
             str[i]='.';
     }
 }
+
+bool obstacle::TestInside (const obstacle & Obs, const sommet S)
+{
+std::vector<sommet> sommets = Obs.getSommet();
+std::vector<segment> segments = Obs.getSegment();
+std::vector<segment> normales;
+std::vector<bool> tests;
+
+for (int i=0; i<(segments.size()); i++)
+    {
+    normales[i]= segment.normale((segments[i]));
+
+    sommet A=segment.getSommet(normales[i]).first;
+    sommet B=segment.getSommet(nomales[i]).second;
+
+    tests[i]=
+    }
+
+
+}
+
+}
