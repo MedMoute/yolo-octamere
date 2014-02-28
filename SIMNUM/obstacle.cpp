@@ -146,3 +146,24 @@ for ( unsigned int i=0; i<(segments.size()); i++)
 return T;
 }
 
+bool Traverse (const obstacle & Obs, const segment & seg, int n)
+{
+bool T;
+std::vector<bool> tests;
+std::vector<sommet> points = (seg,n).Discret(seg,n); //Discrétisation du segment en n points
+
+//Boucle sur tous les points : on teste pour chacun d'entre eux si il est dans l'obstacle
+
+for (int i=0; i<points.size(); i++)
+    {
+    tests[i] = (Obs,points[i]).TestInside(); //test sur chaque point
+
+    //test final
+    if(tests[i]==true)
+    {T=true;}
+    else
+    {T=false;}
+    }
+
+return T;
+}

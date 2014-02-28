@@ -79,9 +79,6 @@ float Cos = x1/sqrt(pow(y1-b,2)+pow(x1,2));
 
 std::vector<sommet> points;
 
-float x=x1; //initialisation
-float y=y1;
-
     for (int i=0; i<n; i++)
     {
     float x = x1+ i*eps*Cos;
