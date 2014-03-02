@@ -104,7 +104,6 @@ void plotting::createNewSegments(pairsom pair)
     graph->getGraph().clear();
     customPlot->clearPlottables();
 
-    //graph->getGraph().clear();
     std::list<arc> tmp_graph;
 
     //récupération des points A et B
@@ -112,6 +111,7 @@ void plotting::createNewSegments(pairsom pair)
     sommet ptB=pair.second;
     //récupération des infos sur les obstacles
     std::list<obstacle> Envir_tmp=obstacles->getEnvir();
+
     int l=Envir_tmp.size();
     //Boucle de création des arcs à partir de A et B
     for(int i=0;i<l;i++)
@@ -126,10 +126,38 @@ void plotting::createNewSegments(pairsom pair)
             arc arcB_tmp(segB_tmp);
             //Test de la validité des nouveaux arcs
             //TODO//
-            //if...
+            int addA=0;
+            int addB=0;
+            std::list<obstacle> Envir_tmp_check=obstacles->getEnvir();
+            for (int k=0;k<l;k++)
+            {
+                if (Envir_tmp_check.front().Traverse(segA_tmp))
+                {
+                    addA++;
+                }
+                else
+                {}
+                Envir_tmp_check.pop_front();
+            }
+            if (addA==0)
+            {
             tmp_graph.push_back(arcA_tmp);
-            //if...
+            }
+
+            for (int k=0;k<l;k++)
+            {
+                if (Envir_tmp_check.front().Traverse(segA_tmp))
+                {
+                    addB++;
+                }
+                else
+                {}
+                Envir_tmp_check.pop_front();
+            }
+            if (addB==0)
+            {
             tmp_graph.push_back(arcB_tmp);
+            }
 
             //Ajout des arcs correspondant aux cotés d'obstacles
             arc arcObst_tmp(obst_tmp.getSegment()[j]);
@@ -142,9 +170,22 @@ void plotting::createNewSegments(pairsom pair)
     //Ne pas oublier le chemin direct :p
     segment seg_dir(ptA,ptB);
     arc arc_dir(seg_dir);
-    //if...
+    int adddir=0;
+    std::list<obstacle> Envir_tmp_check=obstacles->getEnvir();
+    for (int k=0;k<l;k++)
+    {
+        if (Envir_tmp_check.front().Traverse(seg_dir))
+        {
+            adddir++;
+        }
+        else
+        {}
+        Envir_tmp_check.pop_front();
+    }
+    if (adddir==0)
+    {
     tmp_graph.push_back(arc_dir);
-
+    }
 
     //Maj de graph
     graph->setGraph(tmp_graph);

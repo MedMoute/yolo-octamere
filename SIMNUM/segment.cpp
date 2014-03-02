@@ -32,7 +32,7 @@ segment & segment::operator = (const segment & seg) //operateur =
     return * this;
 }
 
-float segment::longueur(const segment & seg) //longueur d'un segment
+float segment::longueur(segment seg) //longueur d'un segment
 {
     float l;
     //Récupération des coordonnées
@@ -63,5 +63,30 @@ segment segment::normale(const segment & seg) //normale au segment
     return perp;
 }
 
+std::vector<sommet> segment::Discret(int n)
+{
+sommet S1 = this->getSommet().first;
+sommet S2 = this->getSommet().second;
+float x1 = S1.Xcoord();
+float y1 = S1.Ycoord();
+float x2 = S2.Xcoord();
+float y2 = S2.Ycoord();
 
+float a = (y2-y1)/(x2-x1); //pente du segment
+float b = y2-a*x2; //ordonnée a l'origine
+float eps = sqrt(pow(y2-y1,2)+pow(x2-x1,2))/(n+1); //pas de discrétisation
+float Cos = x1/sqrt(pow(y1-b,2)+pow(x1,2));
+
+std::vector<sommet> points;
+
+    for (int i=0; i<n; i++)
+    {
+    float x = x1+ i*eps*Cos;
+    float y = x*a+b;
+    sommet som(x,y);
+    points.push_back(som);
+    }
+
+return points;
+}
 

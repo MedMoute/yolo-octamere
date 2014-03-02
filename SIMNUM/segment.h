@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include "utility"
 #include "sommet.h"
+#include <vector>
+
 
 
 
@@ -21,8 +23,9 @@ public:
     segment(sommet A, sommet B);
     ~segment ();
     segment & operator = (const segment & seg);
-    float longueur(const segment & seg);
+    float longueur(segment seg);
     segment normale(const segment & seg);
+    std::vector<sommet> Discret(int n); //Discrétise le segment en n points (plus les deux sommets)
 
 };
 

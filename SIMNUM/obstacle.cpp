@@ -98,51 +98,73 @@ void obstacle::convertToPointDecimal(QString& str)
     }
 }
 
-bool obstacle::TestInside (const obstacle & Obs, const sommet S)
+bool obstacle::TestInside ( const sommet S)
 {
-std::vector<sommet> sommets = Obs.getSommet();
-std::vector<segment> segments = Obs.getSegment();
-std::vector<segment> normales;
-std::vector<bool> tests;
+    std::vector<sommet> sommets = this->getSommet();
+    std::vector<segment> segments = this->getSegment();
+    std::vector<segment> normales;
+    std::vector<bool> tests;
 
-float X=S.Xcoord();
-float Y=S.Ycoord();
+    float X=S.Xcoord();
+    float Y=S.Ycoord();
 
-bool T;
+    bool T;
 
-for ( unsigned int i=0; i<(segments.size()); i++)
+    for ( unsigned int i=0; i<(segments.size()); i++)
     {
-    normales[i]= (segments[i]).normale(segments[i]);
+        normales[i]= (segments[i]).normale(segments[i]);
 
-    sommet A=normales[i].getSommet().first;
-    sommet B=normales[i].getSommet().second;
+        sommet A=normales[i].getSommet().first;
+        sommet B=normales[i].getSommet().second;
 
-    //Coordonnnées des deux sommets définissant le segment i
-    float x1=sommets[i].Xcoord();
-    float y1=sommets[i].Ycoord();
-    float x2=sommets[i+1].Xcoord();
-    float y2=sommets[i+1].Ycoord();
+        //Coordonnnées des deux sommets définissant le segment i
+        float x1=sommets[i].Xcoord();
+        float y1=sommets[i].Ycoord();
+        float x2=sommets[i+1].Xcoord();
+        float y2=sommets[i+1].Ycoord();
 
-    //Coordonnées des deux extrémités de la normale au segment i
-    float Xa=A.Xcoord();
-    float Ya=A.Ycoord();
-    float Xb=B.Xcoord();
-    float Yb=B.Ycoord();
+        //Coordonnées des deux extrémités de la normale au segment i
+        float Xa=A.Xcoord();
+        float Ya=A.Ycoord();
+        float Xb=B.Xcoord();
+        float Yb=B.Ycoord();
 
-    //Calcul des produits scalaires
-    float P1=(x1-X)*(Xb-Xa)+(y1-Y)*(Yb-Ya);
-    float P2=(x2-X)*(Xb-Xa)+(y2-Y)*(Yb-Ya);
+        //Calcul des produits scalaires
+        float P1=(x1-X)*(Xb-Xa)+(y1-Y)*(Yb-Ya);
+        float P2=(x2-X)*(Xb-Xa)+(y2-Y)*(Yb-Ya);
 
-    //Tests pour chaque segment de l'obstacle
-    tests[i]=(P1>0)&&(P2>0);
+        //Tests pour chaque segment de l'obstacle
+        tests[i]=(P1>0)&&(P2>0);
 
-    //Test final
-    if (tests[i]==true)
-    {T=true;}
-    else
-    {T=false;}
+        //Test final
+        if (tests[i]==true)
+        {T=true;}
+        else
+        {T=false;}
     }
 
-return T;
+    return T;
 }
 
+bool obstacle::Traverse ( segment  seg, int n)
+{
+    bool T;
+    std::vector<bool> tests;
+    std::vector<sommet> points=seg.Discret(n) ;
+     //Discrétisation du segment en n points
+
+    //Boucle sur tous les points : on teste pour chacun d'entre eux si il est dans l'obstacle
+
+    for (int i=0; i<points.size(); i++)
+    {
+        tests[i] = this->TestInside(points[i]); //test sur chaque point
+
+        //test final
+        if(tests[i]==true)
+        {T=true;}
+        else
+        {T=false;}
+    }
+
+    return T;
+}

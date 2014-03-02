@@ -25,8 +25,13 @@ public:
     void setSegmentsFromSommets();
     void setArcsFromSegments();
     
-    bool TestInside (const obstacle & Obs, const sommet S);
-    void convertToPointDecimal(QString& str);
+    
+
+    bool TestInside (const sommet S); //Teste si un point est à l'intérieur de l'obstacle
+        void convertToPointDecimal(QString& str);
+
+    bool Traverse ( segment seg, int n=100);  //Pour savoir si un segment coupe un obstacle par discrétisation : plus n est grand, plus le est est précis
+
 
 private:
     std::vector<sommet> sommets;
