@@ -20,10 +20,12 @@ public:
     void resetEnviron();
 
     std::list<obstacle> getEnvir();
+    QString getenvirPath();
 
 private:
     obstacle curObst;
     std::list<obstacle> Envir;
+    QString envirPath;
 };
 
 #endif // ENVIRONNEMENT_H

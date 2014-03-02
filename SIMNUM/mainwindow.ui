@@ -6,12 +6,24 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>596</width>
-    <height>416</height>
+    <width>650</width>
+    <height>450</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>650</width>
+    <height>450</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>650</width>
+    <height>450</height>
+   </size>
+  </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Planificateur de Trajectoire</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QCustomPlot" name="customPlot" native="true">
@@ -19,12 +31,18 @@
      <rect>
       <x>240</x>
       <y>30</y>
-      <width>341</width>
-      <height>321</height>
+      <width>391</width>
+      <height>381</height>
      </rect>
     </property>
+    <property name="minimumSize">
+     <size>
+      <width>250</width>
+      <height>250</height>
+     </size>
+    </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="button_PlotGraph">
     <property name="geometry">
      <rect>
       <x>140</x>
@@ -34,56 +52,36 @@
      </rect>
     </property>
     <property name="text">
-     <string>Start</string>
-    </property>
-   </widget>
-   <widget class="QDoubleSpinBox" name="doubleSpinBox">
-    <property name="geometry">
-     <rect>
-      <x>150</x>
-      <y>280</y>
-      <width>62</width>
-      <height>22</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QDoubleSpinBox" name="doubleSpinBox_2">
-    <property name="geometry">
-     <rect>
-      <x>150</x>
-      <y>250</y>
-      <width>62</width>
-      <height>22</height>
-     </rect>
+     <string>Plot Graph</string>
     </property>
    </widget>
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>40</x>
+      <x>30</x>
       <y>250</y>
       <width>101</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>Position d'arrivée</string>
+     <string>End position</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>40</x>
+      <x>30</x>
       <y>190</y>
       <width>111</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>Position de départ</string>
+     <string>Start position</string>
     </property>
    </widget>
-   <widget class="QDoubleSpinBox" name="doubleSpinBox_3">
+   <widget class="QDoubleSpinBox" name="A_x">
     <property name="geometry">
      <rect>
       <x>150</x>
@@ -92,18 +90,20 @@
       <height>22</height>
      </rect>
     </property>
-   </widget>
-   <widget class="QDoubleSpinBox" name="doubleSpinBox_4">
-    <property name="geometry">
-     <rect>
-      <x>150</x>
-      <y>220</y>
-      <width>62</width>
-      <height>22</height>
-     </rect>
+    <property name="focusPolicy">
+     <enum>Qt::ClickFocus</enum>
+    </property>
+    <property name="minimum">
+     <double>-100.000000000000000</double>
+    </property>
+    <property name="maximum">
+     <double>100.000000000000000</double>
+    </property>
+    <property name="singleStep">
+     <double>0.100000000000000</double>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="button_FindFile">
     <property name="geometry">
      <rect>
       <x>50</x>
@@ -116,11 +116,11 @@
      <string>Find obstacles file</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_3">
+   <widget class="QPushButton" name="button_PlotEnvir">
     <property name="geometry">
      <rect>
       <x>60</x>
-      <y>90</y>
+      <y>120</y>
       <width>121</width>
       <height>28</height>
      </rect>
@@ -168,7 +168,7 @@
      <string>Step 3:</string>
     </property>
    </widget>
-   <widget class="QCheckBox" name="checkBox">
+   <widget class="QCheckBox" name="checkBox_detailgraph">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -181,11 +181,24 @@
      <string>Show prompt</string>
     </property>
    </widget>
-   <widget class="QCheckBox" name="checkBox_2">
+   <widget class="QPushButton" name="button_LaunchAlgo">
     <property name="geometry">
      <rect>
-      <x>80</x>
-      <y>130</y>
+      <x>70</x>
+      <y>350</y>
+      <width>121</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Launch Dijikstra</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBox_detailenvir">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>90</y>
       <width>101</width>
       <height>20</height>
      </rect>
@@ -194,13 +207,151 @@
      <string>Show Details</string>
     </property>
    </widget>
+   <widget class="QDoubleSpinBox" name="A_y">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>220</y>
+      <width>62</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::ClickFocus</enum>
+    </property>
+    <property name="minimum">
+     <double>-100.000000000000000</double>
+    </property>
+    <property name="maximum">
+     <double>100.000000000000000</double>
+    </property>
+    <property name="singleStep">
+     <double>0.100000000000000</double>
+    </property>
+   </widget>
+   <widget class="QDoubleSpinBox" name="B_y">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>280</y>
+      <width>62</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::ClickFocus</enum>
+    </property>
+    <property name="minimum">
+     <double>-100.000000000000000</double>
+    </property>
+    <property name="maximum">
+     <double>100.000000000000000</double>
+    </property>
+    <property name="singleStep">
+     <double>0.100000000000000</double>
+    </property>
+   </widget>
+   <widget class="QDoubleSpinBox" name="B_x">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>250</y>
+      <width>62</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::ClickFocus</enum>
+    </property>
+    <property name="minimum">
+     <double>-100.000000000000000</double>
+    </property>
+    <property name="maximum">
+     <double>100.000000000000000</double>
+    </property>
+    <property name="singleStep">
+     <double>0.100000000000000</double>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_6">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>190</y>
+      <width>53</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>X =</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_7">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>250</y>
+      <width>53</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>X =</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_8">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>220</y>
+      <width>53</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Y=</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_9">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>280</y>
+      <width>53</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Y=</string>
+    </property>
+   </widget>
+   <zorder>customPlot</zorder>
+   <zorder>button_PlotGraph</zorder>
+   <zorder>label</zorder>
+   <zorder>label_2</zorder>
+   <zorder>button_FindFile</zorder>
+   <zorder>button_PlotEnvir</zorder>
+   <zorder>label_3</zorder>
+   <zorder>label_4</zorder>
+   <zorder>label_5</zorder>
+   <zorder>checkBox_detailgraph</zorder>
+   <zorder>button_LaunchAlgo</zorder>
+   <zorder>checkBox_detailenvir</zorder>
+   <zorder>label_6</zorder>
+   <zorder>label_7</zorder>
+   <zorder>label_8</zorder>
+   <zorder>label_9</zorder>
+   <zorder>A_x</zorder>
+   <zorder>A_y</zorder>
+   <zorder>B_x</zorder>
+   <zorder>B_y</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>596</width>
+     <width>650</width>
      <height>26</height>
     </rect>
    </property>

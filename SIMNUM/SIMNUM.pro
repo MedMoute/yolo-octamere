@@ -20,8 +20,7 @@ SOURCES += main.cpp\
     arc.cpp \
     graphe.cpp \
     qcustomplot.cpp \
-    plotting.cpp \
-    popup.cpp
+    plotting.cpp
 
 HEADERS  += mainwindow.h \
     sommet.h \
@@ -31,10 +30,9 @@ HEADERS  += mainwindow.h \
     arc.h \
     graphe.h \
     qcustomplot.h \
-    plotting.h \
-    popup.h
+    plotting.h
 
 FORMS    += mainwindow.ui \
-    popup.ui
+    dialog.ui
 
 -std=c++11

@@ -6,6 +6,7 @@
 #include <list>
 #include<sommet.h>
 #include<segment.h>
+#include<arc.h>
 #include "utility"
 
 class obstacle
@@ -22,12 +23,15 @@ public:
 
     int setSommetsFromTxt(QString & line); //Teste une regex pour voir si la ligne correspond à un point - Retour le code suivant : 0=bon 1=fin d'obstacle "#FIN_OBS" -1 sinon.
     void setSegmentsFromSommets();
+    void setArcsFromSegments();
     
     bool TestInside (const obstacle & Obs, const sommet S);
-        void convertToPointDecimal(QString& str);
+    void convertToPointDecimal(QString& str);
+
 private:
     std::vector<sommet> sommets;
     std::vector<segment> segments;
+    std::vector<arc> arcs;
 };
 
 #endif // OBSTACLE_H

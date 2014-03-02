@@ -4,6 +4,7 @@
 #include "sommet.h"
 #include "environnement.h"
 #include "qcustomplot.h"
+#include "graphe.h"
 #include <QPen>
 #include <QString>
 #include "mainwindow.h"
@@ -16,9 +17,11 @@ class plotting
 {
 public:
     plotting();
-    void drawPolygon(obstacle obst);
 
+    void resetEnvironment();
     void drawEnvironment();
+
+    void drawPolygon(obstacle obst);
 
     std::list<dataarray> getDatas();
     dataarray setDatas(std::vector<sommet> sommets);
@@ -29,18 +32,20 @@ public:
     void setPlot(QCustomPlot* plot);
     void initPlot();
 
-    void resetEnvironment();
-
     environnement* getObstacles();
 
 
+    void createNewSegments(pairsom pair); //  Transforme Envir de obstacles en graphe
+                                 // A l'intérieur crée ts les segs mais ne garde que ceux qui sont OK (eux qui coupent/passent pas dans un obstacle)
+    void drawGraph(); //dessine tous le graphe validé
+
 private:
     QString fileName;
-    QPen pen;
     std::list<dataarray> datas;
     QCustomPlot* customPlot;
     environnement* obstacles;
 
+    graphe* graph;
 };
 
 

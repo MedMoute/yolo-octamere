@@ -2,7 +2,8 @@
 
 graphe::graphe() //constructeur par défaut
 {
-
+    std::list<arc> list;
+    arcs=list;
 }
 
 std::list<arc> graphe::getGraph() const //Michel est privé
@@ -18,11 +19,15 @@ graphe::graphe(std::list<arc> arks) //constructeur par copie
 
 graphe::~graphe() //destructor
 {
-    delete [] &arcs;
 }
 
 graphe & graphe::operator = (const graphe & grph) //opérateur =
 {
     arcs=grph.getGraph();
     return * this;
+}
+
+void graphe::setGraph( std::list<arc> & _graph)
+{
+    arcs=_graph;
 }

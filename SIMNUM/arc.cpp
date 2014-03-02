@@ -14,14 +14,12 @@ segment arc::getSegment() const //récupère les trucs dans private
 
 arc::arc(segment segseg) //constructeur avec valeur
 {
-  segment seg=segseg;
+  seg=segseg;
   l=seg.longueur(seg);
 }
 
 arc::~arc() //destructor
 {
-    delete [] &seg;
-    delete [] &l;
 }
 
 arc & arc::operator = (const arc & A) //opérateur =

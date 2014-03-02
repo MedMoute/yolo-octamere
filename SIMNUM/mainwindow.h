@@ -20,27 +20,26 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    //void setGraph(dataarray datas);
-    plotting* getPlotting();
+   plotting* getPlotting();
+    QString getFileName();
+    void setMainPoints();
+    pairsom getMainPoints();
+
+    bool verbose;
 
 private:
     QCustomPlot* customPlot;
     Ui::MainWindow *ui;
-   plotting* Plot;
+    plotting* Plot;
     QString fileName;
+    sommet ptA;
+    sommet ptB;
 
 public slots:
-    void on_pushButton_2_clicked(); //Slot qui lance la recherche de fichiers --//Syntaxe pour que QtCreator reconnaisse le slot
-    void on_pushButton_3_clicked(); //Slot qui analyse le fichier txt et plot les obstacles
-    /*void launchFullPlot();
-    void launchAlgorithm();
-
-    void pointA_xChanged(double xA);
-    void pointA_yChanged(double yA);
-    void pointB_xChanged(double xB);
-    void pointB_yChanged(double yB);*/
-
-    QString getFileName();
+    void on_button_FindFile_clicked(); //Slot qui lance la recherche de fichiers --//Syntaxe pour que QtCreator reconnaisse le slot
+    void on_button_PlotEnvir_clicked(); //Slot qui analyse le fichier txt et plot les obstacles
+    void on_button_PlotGraph_clicked();
+    void on_button_LaunchAlgo_clicked();
 
 };
 
