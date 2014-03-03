@@ -126,8 +126,8 @@ bool obstacle::TestInside ( const sommet S)
         //Coordonnnées des deux sommets définissant le segment i
         float x1=sommets[i].Xcoord();
         float y1=sommets[i].Ycoord();
-        float x2=sommets[i+1].Xcoord();
-        float y2=sommets[i+1].Ycoord();
+        float x2=sommets[i++].Xcoord();
+        float y2=sommets[i++].Ycoord();
 
         //Coordonnées des deux extrémités de la normale au segment i
         float Xa=A.Xcoord();
@@ -146,10 +146,13 @@ bool obstacle::TestInside ( const sommet S)
         if (tests[i]==true)
         {T=true;}
         else
-        {T=false;}
+        {
+            break;
+            T=false;
+        }
     }
 
-    return T;
+    return T; //Il renvoie "true" si le point est dans l'obstacle et "false" sinon
 }
 
 bool obstacle::Traverse ( segment  seg, int n)
@@ -167,10 +170,13 @@ bool obstacle::Traverse ( segment  seg, int n)
 
         //test final
         if(tests[i]==true)
-        {T=true;}
+        {
+            break;
+            T=true;
+        }
         else
         {T=false;}
     }
 
-    return T;
+    return T; //Renvoie "true" si ça traverse (cad si un des points du segment est dedans) et "false" sinon
 }
