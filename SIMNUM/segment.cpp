@@ -43,7 +43,7 @@ float segment::longueur(segment seg) //longueur d'un segment
     float x2= S2.Xcoord();
     float y2= S2.Ycoord();
     //Calcul
-    l = sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));;
+    l = sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));
     return l;
 
 }
@@ -57,8 +57,8 @@ segment segment::normale(const segment & seg) //normale au segment
     float x2= S2.Xcoord();
     float y2= S2.Ycoord();
 
-    sommet Sperp1 (y2,x1);
-    sommet Sperp2 (y1, x2);
+    sommet Sperp1 (y1,x2);
+    sommet Sperp2 (y2, x1);
     segment perp (Sperp1, Sperp2);
     return perp;
 }
