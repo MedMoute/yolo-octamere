@@ -24,7 +24,7 @@ public:
     ~segment ();
     segment & operator = (const segment & seg);
     float longueur(segment seg);
-    segment normale(const segment & seg);
+    segment normale();
     std::vector<sommet> Discret(int n); //Discrétise le segment en n points (plus les deux sommets)
 
 };

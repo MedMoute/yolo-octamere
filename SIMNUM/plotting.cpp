@@ -126,15 +126,18 @@ void plotting::createNewSegments(pairsom pair)
             arc arcB_tmp(segB_tmp);
             //Test de la validité des nouveaux arcs
             //TODO//
-            int addA=0;
-            int addB=0;
+            bool addA=true;
+            bool addB=true;
             std::list<obstacle> Envir_tmp_check=obstacles->getEnvir();
             for (int k=0;k<l;k++)
             {
-                if (Envir_tmp_check.front().Traverse(segA_tmp))
+                obstacle obst=Envir_tmp_check.front();
+                bool testA=obst.Traverse(segA_tmp);
+
+                if (testA==true)
                 {
                     qDebug()<<Envir_tmp_check.front().Traverse(segA_tmp);
-                    addA++;
+                    addA=false;
                     break;
                 }
                 else
@@ -143,25 +146,27 @@ void plotting::createNewSegments(pairsom pair)
                 }
                 Envir_tmp_check.pop_front();
             }
-            if (addA==0)
+            if (addA==true)
             {
-            tmp_graph.push_back(arcA_tmp);
+                tmp_graph.push_back(arcA_tmp);
             }
-
+            Envir_tmp_check=obstacles->getEnvir();
             for (int k=0;k<l;k++)
             {
-                if (Envir_tmp_check.front().Traverse(segA_tmp))
+                obstacle obst=Envir_tmp_check.front();
+                bool testB=obst.Traverse(segB_tmp);
+                if (testB==true)
                 {
-                    addB++;
+                    addB=false;
                     break;
                 }
                 else
                 {}
                 Envir_tmp_check.pop_front();
             }
-            if (addB==0)
+            if (addB==true)
             {
-            tmp_graph.push_back(arcB_tmp);
+                tmp_graph.push_back(arcB_tmp);
             }
 
             //Ajout des arcs correspondant aux cotés d'obstacles
@@ -175,11 +180,13 @@ void plotting::createNewSegments(pairsom pair)
     //Ne pas oublier le chemin direct :p
     segment seg_dir(ptA,ptB);
     arc arc_dir(seg_dir);
-    int adddir=0;
+    bool adddir=true;
     std::list<obstacle> Envir_tmp_check=obstacles->getEnvir();
     for (int k=0;k<l;k++)
     {
-        if (Envir_tmp_check.front().Traverse(seg_dir))
+        obstacle obst=Envir_tmp_check.front();
+        bool testdir=obst.Traverse(seg_dir);
+        if (testdir==true)
         {
             adddir++;
             qDebug()<<"Segment direct";
@@ -190,9 +197,9 @@ void plotting::createNewSegments(pairsom pair)
         {}
         Envir_tmp_check.pop_front();
     }
-    if (adddir==0)
+    if (adddir==true)
     {
-    tmp_graph.push_back(arc_dir);
+        tmp_graph.push_back(arc_dir);
     }
 
     //Maj de graph

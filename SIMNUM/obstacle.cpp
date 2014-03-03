@@ -101,11 +101,8 @@ void obstacle::convertToPointDecimal(QString& str)
 bool obstacle::TestInside ( const sommet S)
 {
 
-    std::vector<sommet> vect_sommets;
-    std::vector<segment> vect_segments;
-
-    vect_sommets.swap(sommets);
-    vect_segments.swap(segments);
+    std::vector<sommet> vect_sommets(sommets);
+    std::vector<segment> vect_segments(segments);
 
     std::vector<segment> normales;
     std::vector<bool> tests;
@@ -117,7 +114,9 @@ bool obstacle::TestInside ( const sommet S)
 
     for ( unsigned int i=0; i<(segments.size()); i++)
     {
-        normales.push_back(vect_segments.back());
+        segment tmpseg=vect_segments.back();
+        segment tmpnorm=tmpseg.normale();
+        normales.push_back(tmpnorm);
         vect_segments.pop_back();
 
         sommet A=normales.back().getSommet().first;
@@ -152,18 +151,20 @@ bool obstacle::TestInside ( const sommet S)
     return T;
 }
 
-bool obstacle::Traverse ( segment  seg, int n)
+bool obstacle::Traverse (segment  seg, int n)
 {
     bool T;
     std::vector<bool> tests;
     std::vector<sommet> points=seg.Discret(n) ;
-     //Discrétisation du segment en n points
+    //Discrétisation du segment en n points
 
     //Boucle sur tous les points : on teste pour chacun d'entre eux si il est dans l'obstacle
 
     for (int i=0; i<points.size(); i++)
     {
-        tests.push_back(TestInside(points[i])); //test sur chaque point
+        sommet som=points[i];
+        bool test_tmp=TestInside(som);
+        tests.push_back(test_tmp); //test sur chaque point
 
         //test final
         if(tests[i]==true)

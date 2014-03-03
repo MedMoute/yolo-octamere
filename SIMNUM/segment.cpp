@@ -1,5 +1,6 @@
 #include "segment.h"
 #include "math.h"
+#include <QDebug>
 
 
 segment::segment() //constructeur par défaut
@@ -15,7 +16,7 @@ segment::segment(sommet A, sommet B) //constructeur avec valeur
 }
 
 pairsom segment::getSommet() const
-  {
+{
     pairsom pair=std::make_pair(S1, S2);
     return pair;
 }
@@ -48,14 +49,15 @@ float segment::longueur(segment seg) //longueur d'un segment
 
 }
 
-segment segment::normale(const segment & seg) //normale au segment
+segment segment::normale() //normale au segment
 {
-    sommet S1 = seg.getSommet().first;
-    sommet S2 = seg.getSommet().second;
+    //qDebug()<<"flag";
     float x1= S1.Xcoord();
     float y1= S1.Ycoord();
     float x2= S2.Xcoord();
     float y2= S2.Ycoord();
+    //qDebug()<<"Segment:("<<x1<<";"<<y1<<")->"<<"("<<x2<<";"<<y2<<")";
+    //qDebug()<<"Normale:("<<y1<<";"<<x2<<")->"<<"("<<y2<<";"<<x1<<")";
 
     sommet Sperp1 (y1,x2);
     sommet Sperp2 (y2, x1);
@@ -65,28 +67,28 @@ segment segment::normale(const segment & seg) //normale au segment
 
 std::vector<sommet> segment::Discret(int n)
 {
-sommet S1 = this->getSommet().first;
-sommet S2 = this->getSommet().second;
-float x1 = S1.Xcoord();
-float y1 = S1.Ycoord();
-float x2 = S2.Xcoord();
-float y2 = S2.Ycoord();
+    sommet S1 = this->getSommet().first;
+    sommet S2 = this->getSommet().second;
+    float x1 = S1.Xcoord();
+    float y1 = S1.Ycoord();
+    float x2 = S2.Xcoord();
+    float y2 = S2.Ycoord();
 
-float a = (y2-y1)/(x2-x1); //pente du segment
-float b = y2-a*x2; //ordonnée a l'origine
-float eps = sqrt(pow(y2-y1,2)+pow(x2-x1,2))/(n+1); //pas de discrétisation
-float Cos = x1/sqrt(pow(y1-b,2)+pow(x1,2));
+    float a = (y2-y1)/(x2-x1); //pente du segment
+    float b = y2-a*x2; //ordonnée a l'origine
+    float eps = sqrt(pow(y2-y1,2)+pow(x2-x1,2))/(n+1); //pas de discrétisation
+    float Cos = x1/sqrt(pow(y1-b,2)+pow(x1,2));
 
-std::vector<sommet> points;
+    std::vector<sommet> points;
 
     for (int i=0; i<n; i++)
     {
-    float x = x1+ i*eps*Cos;
-    float y = x*a+b;
-    sommet som(x,y);
-    points.push_back(som);
+        float x = x1+ i*eps*Cos;
+        float y = x*a+b;
+        sommet som(x,y);
+        points.push_back(som);
     }
 
-return points;
+    return points;
 }
 
