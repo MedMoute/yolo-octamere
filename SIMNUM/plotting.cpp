@@ -133,10 +133,14 @@ void plotting::createNewSegments(pairsom pair)
             {
                 if (Envir_tmp_check.front().Traverse(segA_tmp))
                 {
+                    qDebug()<<Envir_tmp_check.front().Traverse(segA_tmp);
                     addA++;
+                    break;
                 }
                 else
-                {}
+                {
+                    qDebug()<<Envir_tmp_check.front().Traverse(segA_tmp);
+                }
                 Envir_tmp_check.pop_front();
             }
             if (addA==0)
@@ -149,6 +153,7 @@ void plotting::createNewSegments(pairsom pair)
                 if (Envir_tmp_check.front().Traverse(segA_tmp))
                 {
                     addB++;
+                    break;
                 }
                 else
                 {}
@@ -177,6 +182,9 @@ void plotting::createNewSegments(pairsom pair)
         if (Envir_tmp_check.front().Traverse(seg_dir))
         {
             adddir++;
+            qDebug()<<"Segment direct";
+            qDebug()<<Envir_tmp_check.front().Traverse(seg_dir);
+            break;
         }
         else
         {}

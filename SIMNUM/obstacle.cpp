@@ -100,8 +100,13 @@ void obstacle::convertToPointDecimal(QString& str)
 
 bool obstacle::TestInside ( const sommet S)
 {
-    std::vector<sommet> sommets = this->getSommet();
-    std::vector<segment> segments = this->getSegment();
+
+    std::vector<sommet> vect_sommets;
+    std::vector<segment> vect_segments;
+
+    vect_sommets.swap(sommets);
+    vect_segments.swap(segments);
+
     std::vector<segment> normales;
     std::vector<bool> tests;
 
@@ -112,10 +117,11 @@ bool obstacle::TestInside ( const sommet S)
 
     for ( unsigned int i=0; i<(segments.size()); i++)
     {
-        normales[i]= (segments[i]).normale(segments[i]);
+        normales.push_back(vect_segments.back());
+        vect_segments.pop_back();
 
-        sommet A=normales[i].getSommet().first;
-        sommet B=normales[i].getSommet().second;
+        sommet A=normales.back().getSommet().first;
+        sommet B=normales.back().getSommet().second;
 
         //Coordonnnées des deux sommets définissant le segment i
         float x1=sommets[i].Xcoord();
@@ -134,7 +140,7 @@ bool obstacle::TestInside ( const sommet S)
         float P2=(x2-X)*(Xb-Xa)+(y2-Y)*(Yb-Ya);
 
         //Tests pour chaque segment de l'obstacle
-        tests[i]=(P1>0)&&(P2>0);
+        tests.push_back((P1>0)&&(P2>0));
 
         //Test final
         if (tests[i]==true)
@@ -157,7 +163,7 @@ bool obstacle::Traverse ( segment  seg, int n)
 
     for (int i=0; i<points.size(); i++)
     {
-        tests[i] = this->TestInside(points[i]); //test sur chaque point
+        tests.push_back(TestInside(points[i])); //test sur chaque point
 
         //test final
         if(tests[i]==true)

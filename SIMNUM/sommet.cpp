@@ -25,7 +25,7 @@ sommet::~sommet() //destructeur
 
 sommet & sommet::operator = (sommet S) //operateur =
 {
-          this->x=S.Xcoord();
-          this->y=S.Ycoord();
+          x=S.Xcoord();
+          y=S.Ycoord();
     return * this;
 }
