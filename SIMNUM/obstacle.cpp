@@ -113,6 +113,7 @@ bool obstacle::TestInside ( const sommet S)
     float X=S.Xcoord();
     float Y=S.Ycoord();
 
+    int N=0;
     bool T;
 
     for ( unsigned int i=0; i<(segments.size()); i++)
@@ -129,31 +130,28 @@ bool obstacle::TestInside ( const sommet S)
         float x2=sommets[i++].Xcoord();
         float y2=sommets[i++].Ycoord();
 
-        //Coordonnées des deux extrémités de la normale au segment i
-        float Xa=A.Xcoord();
-        float Ya=A.Ycoord();
-        float Xb=B.Xcoord();
-        float Yb=B.Ycoord();
+        //Pente et ordonée à l'origine de la droite portant le segment i
+        float a=(y1-y2)/(x1-x2);
+        float b=y1-a*x1;
 
-        //Calcul des produits scalaires
-        float P1=(x1-X)*(Xb-Xa)+(y1-Y)*(Yb-Ya);
-        float P2=(x2-X)*(Xb-Xa)+(y2-Y)*(Yb-Ya);
+        //Abscisse du point d'intersection de l'horizontale passant par S avec la droite
+        float xI=(Y-b)/a;
 
-        //Tests pour chaque segment de l'obstacle
-        tests.push_back((P1>0)&&(P2>0));
+        //Test si le point d'intersection est bien sur le segment et compte le nombre de points d'intersection
+        if (((x1<x2)&&(xI>=x1)&&(xI<=x2))||((x1>x2)&&(xI>=x2)&&(xI<=x1)))
+        {N=N+1;}
 
-        //Test final
-        if (tests[i]==true)
-        {T=true;}
-        else
-        {
-            break;
-            T=false;
-        }
     }
 
-    return T; //Il renvoie "true" si le point est dans l'obstacle et "false" sinon
+    //Test sur la parité de N : si il est impair le point est dans l'obstacle, sinon il est à l'extérieur
+    if (N%2==0)
+        {T=false;}
+    else
+        {T=true;}
+
+    return T; //true : le point est dedans ; false il est à l'extérieur
 }
+
 
 bool obstacle::Traverse ( segment  seg, int n)
 {
