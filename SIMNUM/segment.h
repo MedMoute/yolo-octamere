@@ -16,16 +16,24 @@ class segment
 private :
     sommet S1;
     sommet S2;
+    std::pair<double,double> coords;
 public:
-
-    pairsom getSommet() const;
     segment();
     segment(sommet A, sommet B);
+    segment(sommet S,std::pair<double,double> coords);
     ~segment ();
+
     segment & operator = (const segment & seg);
+
     float longueur(segment seg);
     segment normale();
-    std::vector<sommet> Discret(int n); //Discrétise le segment en n points (plus les deux sommets)
+    pairsom getSommet() const;
+    std::vector<sommet> Discret(int n); //DiscrÃ©tise le segment en n points (plus les deux sommets)
+                                        //Plus utilisÃ©e : remplacÃ©e par la mÃ©thode des projections ortho
+    sommet projOrth(sommet S);
+
+    std::pair<double,double> getCoords();
+    void setCoords(std::pair<double,double>);
 
 };
 

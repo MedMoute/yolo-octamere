@@ -136,13 +136,13 @@ void plotting::createNewSegments(pairsom pair)
 
                 if (testA==true)
                 {
-                    qDebug()<<Envir_tmp_check.front().Traverse(segA_tmp);
+                   // qDebug()<<Envir_tmp_check.front().Traverse(segA_tmp);
                     addA=false;
                     break;
                 }
                 else
                 {
-                    qDebug()<<Envir_tmp_check.front().Traverse(segA_tmp);
+                    //qDebug()<<Envir_tmp_check.front().Traverse(segA_tmp);
                 }
                 Envir_tmp_check.pop_front();
             }
