@@ -108,7 +108,8 @@ bool obstacle::TestInside ( const sommet S)
     float X=S.Xcoord();
     float Y=S.Ycoord();
 
-    int N=0;
+    int Ndroite=0;
+    int Ngauche=0;
     bool T;
 
     for ( unsigned int i=0; i<(segments.size()); i++)
@@ -131,17 +132,32 @@ bool obstacle::TestInside ( const sommet S)
         float a=(y1-y2)/(x1-x2);
         float b=y1-a*x1;
 
+        if ((a==0)&&(Y==b))
+        {
+            if ((((x1<x2)&&(X>=x1)&&(X<=x2))||((x1>x2)&&(X>=x2)&&(X<=x1))))
+            //On entre a la main les valeurs de Ngauche et Ndroite pour obtenir le bon résultat avec le test final
+            {Ngauche=1;
+            Ndroite=1;}
+            }
+        else if ((a==0)&&(Y!=b))
+        {Ngauche=2;
+        Ndroite=2;}
+        else
+        {
         //Abscisse du point d'intersection de l'horizontale passant par S avec la droite
         float xI=(Y-b)/a;
         qDebug()<<xI;
         //Test si le point d'intersection est bien sur le segment et compte le nombre de points d'intersection
-        if (((x1<x2)&&(xI>=x1)&&(xI<=x2))||((x1>x2)&&(xI>=x2)&&(xI<=x1)))
-        {N=N+1;}
+        if ((((x1<x2)&&(xI>=x1)&&(xI<=x2))||((x1>x2)&&(xI>=x2)&&(xI<=x1)))&&(xI<=X))
+        {Ngauche=Ngauche+1;}
+        else if ((((x1<x2)&&(xI>=x1)&&(xI<=x2))||((x1>x2)&&(xI>=x2)&&(xI<=x1)))&&(xI>=X))
+        {Ndroite=Ndroite+1;};
+        }
 
     }
 
     //Test sur la parité de N : si il est impair le point est dans l'obstacle, sinon il est à l'extérieur
-    if (N%2==0)
+    if ((Ngauche%2==0)&&(Ndroite%2==0))
     {T=false;}
     else
     {T=true;}
