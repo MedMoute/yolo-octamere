@@ -222,11 +222,12 @@ bool obstacle::Traverse ( segment  seg, int n)
 {
     bool T;
     std::vector<bool> tests;
+    std::vector<sommet> points;
+    points=seg.Discret(n);
 
-    for (int i=0; i<segments.size(); i++)
+    for (int i=0; i<points.size(); i++)
     {
-        tests.push_back(TestInside(seg.projOrth(sommets[i]))); //test sur chaque point
-        //qDebug()<<sommets[i].Xcoord()<<"   "<<sommets[i].Ycoord();
+        tests.push_back(TestInside(points[i])); //test sur chaque point
         //test final
         if(tests[i]==true)
         {
@@ -236,6 +237,26 @@ bool obstacle::Traverse ( segment  seg, int n)
         else
         {T=false;}
     }
+
+    return T; //Renvoie "true" si ça traverse (cad si un des points du segment est dedans) et "false" sinon
+}
+
+bool obstacle::TraverseConvexe(segment seg)
+{
+    bool T;
+    std::vector<bool> tests;
+ //   std::vector<segment> droites;
+    std::vector<sommet> projetes;
+    for (int i=0; i<sommets.size(); i++)
+    {
+        projetes.push_back(seg.projOrth(sommets[i]));
+        tests.push_back(TestInside(projetes[i]));
+        if (tests[i]==true)
+        {break;
+            T=true;}
+        else
+            {T=false;}
+     }
 
     return T; //Renvoie "true" si ça traverse (cad si un des points du segment est dedans) et "false" sinon
 }

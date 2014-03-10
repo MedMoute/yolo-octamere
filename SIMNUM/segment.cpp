@@ -84,17 +84,15 @@ std::vector<sommet> segment::Discret(int n)
     float x2 = S2.Xcoord();
     float y2 = S2.Ycoord();
 
-    float a = (y2-y1)/(x2-x1); //pente du segment
-    float b = y2-a*x2; //ordonnée a l'origine
-    float eps = sqrt(pow(y2-y1,2)+pow(x2-x1,2))/(n+1); //pas de discrétisation
-    float Cos = x1/sqrt(pow(y1-b,2)+pow(x1,2));
+
+    float Long = sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));
 
     std::vector<sommet> points;
 
-    for (int i=0; i<n; i++)
+    for (int i=0; i<n+1; i++)
     {
-        float x = x1+ i*eps*Cos;
-        float y = x*a+b;
+        float x = x1+i*(x2-x1)/(n+1);
+        float y = y1+i*(y2-y1)/(n+1);
         sommet som(x,y);
         points.push_back(som);
     }
