@@ -100,7 +100,6 @@ void obstacle::convertToPointDecimal(QString& str)
 
 bool obstacle::TestInside ( const sommet S)
 {
-    //qDebug()<<"("<<S.Xcoord()<<";"<<S.Ycoord()<<")";
     std::vector<sommet> vect_sommets(sommets);
     std::vector<segment> vect_segments(segments);
 
@@ -146,6 +145,7 @@ bool obstacle::TestInside ( const sommet S)
         {
         //Abscisse du point d'intersection de l'horizontale passant par S avec la droite
         float xI=(Y-b)/a;
+<<<<<<< HEAD
         qDebug()<<xI;
         //Test si le point d'intersection est bien sur le segment et compte le nombre de points d'intersection
         if ((((x1<x2)&&(xI>=x1)&&(xI<=x2))||((x1>x2)&&(xI>=x2)&&(xI<=x1)))&&(xI<=X))
@@ -153,6 +153,11 @@ bool obstacle::TestInside ( const sommet S)
         else if ((((x1<x2)&&(xI>=x1)&&(xI<=x2))||((x1>x2)&&(xI>=x2)&&(xI<=x1)))&&(xI>=X))
         {Ndroite=Ndroite+1;};
         }
+=======
+          //Test si le point d'intersection est bien sur le segment et compte le nombre de points d'intersection
+        if (((x1<x2)&&(xI>=x1)&&(xI<=x2))||((x1>x2)&&(xI>=x2)&&(xI<=x1)))
+        {N=N+1;}
+>>>>>>> 43ffcce56005894d7eeea318611bfc1f1d0ec92e
 
     }
 
@@ -161,15 +166,17 @@ bool obstacle::TestInside ( const sommet S)
     {T=false;}
     else
     {T=true;}
-    //qDebug()<<"test inside : "<<T;
+    qDebug()<<"test inside de ("<<S.Xcoord()<<";"<<S.Ycoord()<<")"<<T;
 
     return T; //true : le point est dedans ; false il est à l'extérieur
 }
 
 //Autre version de testInside
 //
-/*bool obstacle::TestInside (const sommet S)
+/*
+bool obstacle::TestInside (const sommet S)
 {
+    bool T=false;
     float X=S.Xcoord();
     float Y=S.Ycoord();
             //qDebug()<<X<<"   "<<Y;
@@ -221,15 +228,19 @@ bool obstacle::TestInside ( const sommet S)
    // qDebug()<<coupeDroite<<"       "<<coupeGauche;
     if (coupeDroite%2==1||coupeGauche%2==1)
     {
-        return true;
+            qDebug()<<"Coords du point testé (Test Inside) :("<<S.Xcoord()<<";"<<S.Ycoord()<<")Le point est dans l'obstacle considéré";
+        T=true;
     }
     else
     {
-        //qDebug()<<"on est pas dedaaaaaans !";
-        return false;
+            qDebug()<<"Coords du point testé (Test Inside) :("<<S.Xcoord()<<";"<<S.Ycoord()<<")Le point n'est pas dans l'obstacle considéré";
+        T=false;
     }
-}
-*/
+
+
+        return T;
+}*/
+
 bool obstacle::Traverse ( segment  seg, int n)
 {
     bool T;
