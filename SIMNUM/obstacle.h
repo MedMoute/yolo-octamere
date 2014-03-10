@@ -28,9 +28,9 @@ public:
     
 
     bool TestInside (const sommet S); //Teste si un point est à l'intérieur de l'obstacle
-        void convertToPointDecimal(QString& str);
+    void convertToPointDecimal(QString& str);
 
-    bool Traverse ( segment seg, int n=100);  //Pour savoir si un segment coupe un obstacle (non convexe) par discrétisation : plus n est grand, plus le test est précis
+    bool Traverse ( segment seg, int n);  //Pour savoir si un segment coupe un obstacle (non convexe) par discrétisation : plus n est grand, plus le test est précis
     bool TraverseConvexe(segment seg);  //Pour les obstacles convexes : test infaillible
 
 private:
@@ -38,5 +38,5 @@ private:
     std::vector<segment> segments;
     std::vector<arc> arcs;
 };
-
+bool IsFiniteNumber(double x);
 #endif // OBSTACLE_H

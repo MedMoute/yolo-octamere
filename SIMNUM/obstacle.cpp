@@ -3,7 +3,11 @@
 #include <QRegularExpressionMatch>
 #include "sommet.h"
 #include "segment.h"
+#include <math.h>
+#include <float.h>
 #include <QDebug>
+
+#define PI 3.14159265
 
 obstacle::obstacle()
 {
@@ -100,74 +104,85 @@ void obstacle::convertToPointDecimal(QString& str)
 
 bool obstacle::TestInside ( const sommet S)
 {
-    std::vector<sommet> vect_sommets(sommets);
-    std::vector<segment> vect_segments(segments);
-
-    std::vector<segment> normales;
     float X=S.Xcoord();
     float Y=S.Ycoord();
 
     int Ndroite=0;
     int Ngauche=0;
-    bool T;
+    bool T=false;
 
     for ( unsigned int i=0; i<(segments.size()); i++)
     {
-        segment tmpseg=vect_segments.back();
-        segment tmpnorm=tmpseg.normale();
-        normales.push_back(tmpnorm);
-        vect_segments.pop_back();
-
-        sommet A=normales.back().getSommet().first;
-        sommet B=normales.back().getSommet().second;
-
         //Coordonnnées des deux sommets définissant le segment i
-        float x1=sommets[i].Xcoord();
-        float y1=sommets[i].Ycoord();
-        float x2=sommets[i+1].Xcoord();
-        float y2=sommets[i+1].Ycoord();
-
-        //Pente et ordonée à l'origine de la droite portant le segment i
-        float a=(y1-y2)/(x1-x2);
-        float b=y1-a*x1;
-
-        if ((a==0)&&(Y==b))
+        float x1;
+        float y1;
+        float x2;
+        float y2;
+        if (i==segments.size()-1)
         {
-            if ((((x1<x2)&&(X>=x1)&&(X<=x2))||((x1>x2)&&(X>=x2)&&(X<=x1))))
-            //On entre a la main les valeurs de Ngauche et Ndroite pour obtenir le bon résultat avec le test final
-            {Ngauche=1;
-            Ndroite=1;}
-            }
-        else if ((a==0)&&(Y!=b))
-        {Ngauche=2;
-        Ndroite=2;}
+            x1=sommets[i].Xcoord();
+            y1=sommets[i].Ycoord();
+            x2=sommets[0].Xcoord();
+            y2=sommets[0].Ycoord();
+        }
         else
         {
-        //Abscisse du point d'intersection de l'horizontale passant par S avec la droite
-        float xI=(Y-b)/a;
-<<<<<<< HEAD
-        qDebug()<<xI;
-        //Test si le point d'intersection est bien sur le segment et compte le nombre de points d'intersection
-        if ((((x1<x2)&&(xI>=x1)&&(xI<=x2))||((x1>x2)&&(xI>=x2)&&(xI<=x1)))&&(xI<=X))
-        {Ngauche=Ngauche+1;}
-        else if ((((x1<x2)&&(xI>=x1)&&(xI<=x2))||((x1>x2)&&(xI>=x2)&&(xI<=x1)))&&(xI>=X))
-        {Ndroite=Ndroite+1;};
+            x1=sommets[i].Xcoord();
+            y1=sommets[i].Ycoord();
+            x2=sommets[i+1].Xcoord();
+            y2=sommets[i+1].Ycoord();
         }
-=======
-          //Test si le point d'intersection est bien sur le segment et compte le nombre de points d'intersection
-        if (((x1<x2)&&(xI>=x1)&&(xI<=x2))||((x1>x2)&&(xI>=x2)&&(xI<=x1)))
-        {N=N+1;}
->>>>>>> 43ffcce56005894d7eeea318611bfc1f1d0ec92e
 
+        //Pente et ordonée à l'origine de la droite portant le segment i
+        float a=(y1-y2)/(x1-x2);//Pente
+        float b=y1-a*x1;//Ordonnée à l'origine
+
+        if ((a!=0)&&(IsFiniteNumber(a)))//Segment non horizontal ou non vertical
+        {
+            //Abscisse du point d'intersection de l'horizontale passant par S avec la droite
+            float xI=(Y-b)/a;
+
+            //qDebug()<<xI;
+
+            if(Y==xI*a)//Test du cas ou le point intersecte le segment : on considère que le point n'est PAS dans l'obstacle
+            {
+                break;
+            }
+
+            //Test si le point d'intersection est bien sur le segment et compte le nombre de points d'intersection
+            else if ((((x1<x2)&&(xI>=x1)&&(xI<=x2))||((x1>x2)&&(xI>=x2)&&(xI<=x1)))&&(xI<=X))
+            {
+                Ngauche++;
+            }
+            else if ((((x1<x2)&&(xI>=x1)&&(xI<=x2))||((x1>x2)&&(xI>=x2)&&(xI<=x1)))&&(xI>=X))
+            {
+                Ndroite++;
+            }
+        }
+        else if (a==0&&Y==b&&(((X>=x1)&&(X<=x2))||((X>=x2)&&(X<=x1))))//segment horizontal d'ordonée b qui entoure le point
+        {
+            //Condition fausse
+            return true;
+        }
+        else if (!IsFiniteNumber(a)&&Y==b&&(((X>=x1)&&(X<=x2))||((X>=x2)&&(X<=x1))))//segment horizontal d'ordonée b qui entoure le point
+        {
+            //Condition fausse
+            return true;
+        }
     }
 
-    //Test sur la parité de N : si il est impair le point est dans l'obstacle, sinon il est à l'extérieur
-    if ((Ngauche%2==0)&&(Ndroite%2==0))
-    {T=false;}
+    if ((Ngauche%2==0)&&(Ndroite%2==0))    //Test sur la parité de N : si il est impair le point est dans l'obstacle, sinon il est à l'extérieur
+    {
+        T=false;
+    }
     else
-    {T=true;}
-    qDebug()<<"test inside de ("<<S.Xcoord()<<";"<<S.Ycoord()<<")"<<T;
-
+    {
+        T=true;
+    }
+    if (X>=3&&X<=4.5&&Y>=3&&Y<=4.5&&T==true)
+    {
+        //qDebug()<<"test inside de ("<<S.Xcoord()<<";"<<S.Ycoord()<<")"<<T;
+    }
     return T; //true : le point est dedans ; false il est à l'extérieur
 }
 
@@ -244,21 +259,17 @@ bool obstacle::TestInside (const sommet S)
 bool obstacle::Traverse ( segment  seg, int n)
 {
     bool T;
-    std::vector<bool> tests;
     std::vector<sommet> points;
     points=seg.Discret(n);
 
-    for (int i=0; i<points.size(); i++)
+    for (unsigned int i=1; i<points.size()-1; i++)
     {
-        tests.push_back(TestInside(points[i])); //test sur chaque point
-        //test final
-        if(tests[i]==true)
+        T=TestInside(points[i]); //test sur chaque point
+
+        if (T==true)
         {
             break;
-            T=true;
         }
-        else
-        {T=false;}
     }
 
     return T; //Renvoie "true" si ça traverse (cad si un des points du segment est dedans) et "false" sinon
@@ -267,10 +278,11 @@ bool obstacle::Traverse ( segment  seg, int n)
 bool obstacle::TraverseConvexe(segment seg)
 {
     bool T;
+
     std::vector<bool> tests;
- //   std::vector<segment> droites;
+    //   std::vector<segment> droites;
     std::vector<sommet> projetes;
-    for (int i=0; i<sommets.size(); i++)
+    for (unsigned int i=0; i<sommets.size(); i++)
     {
         projetes.push_back(seg.projOrth(sommets[i]));
         tests.push_back(TestInside(projetes[i]));
@@ -278,8 +290,12 @@ bool obstacle::TraverseConvexe(segment seg)
         {break;
             T=true;}
         else
-            {T=false;}
-     }
+        {T=false;}
+    }
 
     return T; //Renvoie "true" si ça traverse (cad si un des points du segment est dedans) et "false" sinon
+}
+bool IsFiniteNumber(double x)
+{
+    return (x <= DBL_MAX && x >= -DBL_MAX);
 }

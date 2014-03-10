@@ -35,7 +35,7 @@ public:
     environnement* getObstacles();
 
 
-    void createNewSegments(pairsom pair); //  Transforme Envir de obstacles en graphe
+    void createNewSegments(pairsom pair,int n); //  Transforme Envir de obstacles en graphe
                                  // A l'intérieur crée ts les segs mais ne garde que ceux qui sont OK (eux qui coupent/passent pas dans un obstacle)
     void drawGraph(); //dessine tous le graphe validé
 

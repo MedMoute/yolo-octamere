@@ -63,7 +63,6 @@ float segment::longueur(segment seg) //longueur d'un segment
 
 segment segment::normale() //normale au segment
 {
-    //qDebug()<<"flag";
     float x1= S1.Xcoord();
     float y1= S1.Ycoord();
     float x2= S2.Xcoord();
@@ -83,9 +82,6 @@ std::vector<sommet> segment::Discret(int n)
     float y1 = S1.Ycoord();
     float x2 = S2.Xcoord();
     float y2 = S2.Ycoord();
-
-
-    float Long = sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));
 
     std::vector<sommet> points;
 

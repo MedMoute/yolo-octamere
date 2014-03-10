@@ -98,7 +98,7 @@ void plotting::resetEnvironment()
     obstacles->resetEnviron();
 }
 
-void plotting::createNewSegments(pairsom pair)
+void plotting::createNewSegments(pairsom pair,int n)
 {
     //réinitialisation du graphe
     graph->getGraph().clear();
@@ -111,6 +111,7 @@ void plotting::createNewSegments(pairsom pair)
     sommet ptB=pair.second;
     //récupération des infos sur les obstacles
     std::list<obstacle> Envir_tmp=obstacles->getEnvir();
+
 
     int l=Envir_tmp.size();
     //Boucle de création des arcs à partir de A et B
@@ -132,11 +133,11 @@ void plotting::createNewSegments(pairsom pair)
             for (int k=0;k<l;k++)
             {
                 obstacle obst=Envir_tmp_check.front();
-                bool testA=obst.Traverse(segA_tmp);
+                bool testA=obst.Traverse(segA_tmp,n);
 
                 if (testA==true)
                 {
-                   // qDebug()<<Envir_tmp_check.front().Traverse(segA_tmp);
+                    // qDebug()<<Envir_tmp_check.front().Traverse(segA_tmp);
                     addA=false;
                     break;
                 }
@@ -154,7 +155,7 @@ void plotting::createNewSegments(pairsom pair)
             for (int k=0;k<l;k++)
             {
                 obstacle obst=Envir_tmp_check.front();
-                bool testB=obst.Traverse(segB_tmp);
+                bool testB=obst.Traverse(segB_tmp,n);
                 if (testB==true)
                 {
                     addB=false;
@@ -175,9 +176,56 @@ void plotting::createNewSegments(pairsom pair)
         }
         Envir_tmp.pop_front();
     }
+    //Boucle de création d'arcs entre plusieurs obstacles
+    Envir_tmp=obstacles->getEnvir();
 
 
-    //Ne pas oublier le chemin direct :p
+    while(!Envir_tmp.empty())//Première boucle de choix d'obstacle
+    {
+        //qDebug()<<"Taille de Envir_tmp"<<Envir_tmp.size();
+        std::list<obstacle> Envir_tmp_2=Envir_tmp;
+        obstacle obst_tmp=Envir_tmp.front();
+        while (!Envir_tmp_2.empty()) //Deuxième boucle de choix sur les obstacles
+        {
+
+                obstacle obst_tmp_2=Envir_tmp_2.front();
+                int m=obst_tmp.getSommet().size();
+                int m2=obst_tmp_2.getSommet().size();
+                for(int j=0;j<m;j++)
+                {
+                    for(int j2=0;j2<m2;j2++)
+                    {
+                        segment seg_tmp(obst_tmp.getSommet()[j],obst_tmp_2.getSommet()[j2]); //création du segment
+                        arc arc_tmp(seg_tmp);
+                        bool add=true;
+                        std::list<obstacle> Envir_tmp_check=obstacles->getEnvir();
+                        for (int k=0;k<l;k++)//Boucle de vérification sur les obstacles (traverse)
+                        {
+                            obstacle obst=Envir_tmp_check.front();
+                            bool test=obst.Traverse(seg_tmp,n); //Test de la validité des nouveaux arcs
+                            //qDebug()<<test;
+                            if (test==true)
+                            {
+                                add=false;
+                                break;
+                            }
+                            else
+                            {}
+                            Envir_tmp_check.pop_front();
+                        }
+                        if (add==true)
+                        {
+                            tmp_graph.push_back(arc_tmp);
+                        }
+
+                }
+            }
+            Envir_tmp_2.pop_front();
+        }
+        Envir_tmp.pop_front();
+    }
+
+    //Ne pas oublier le chemin direct
     segment seg_dir(ptA,ptB);
     arc arc_dir(seg_dir);
     bool adddir=true;
@@ -185,11 +233,11 @@ void plotting::createNewSegments(pairsom pair)
     for (int k=0;k<l;k++)
     {
         obstacle obst=Envir_tmp_check.front();
-        bool testdir=obst.Traverse(seg_dir);
+        bool testdir=obst.Traverse(seg_dir,n);
         if (testdir==true)
         {
-            adddir++;
-            qDebug()<<Envir_tmp_check.front().Traverse(seg_dir);
+            adddir=false;
+            //qDebug()<<Envir_tmp_check.front().Traverse(seg_dir);
             break;
         }
         else

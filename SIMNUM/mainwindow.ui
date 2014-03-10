@@ -6,20 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>650</width>
-    <height>450</height>
+    <width>800</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>650</width>
-    <height>450</height>
+    <width>800</width>
+    <height>600</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>650</width>
-    <height>450</height>
+    <width>800</width>
+    <height>600</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -31,8 +31,8 @@
      <rect>
       <x>240</x>
       <y>30</y>
-      <width>391</width>
-      <height>381</height>
+      <width>531</width>
+      <height>511</height>
      </rect>
     </property>
     <property name="minimumSize">
@@ -45,47 +45,47 @@
    <widget class="QPushButton" name="button_PlotGraph">
     <property name="geometry">
      <rect>
-      <x>140</x>
-      <y>310</y>
-      <width>93</width>
+      <x>40</x>
+      <y>350</y>
+      <width>171</width>
       <height>28</height>
      </rect>
     </property>
     <property name="text">
-     <string>Plot Graph</string>
+     <string>Calculer/Dessiner le graphe</string>
     </property>
    </widget>
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>250</y>
+      <x>20</x>
+      <y>260</y>
       <width>101</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>End position</string>
+     <string>Position finale</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>190</y>
+      <x>20</x>
+      <y>200</y>
       <width>111</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>Start position</string>
+     <string>Position initiale</string>
     </property>
    </widget>
    <widget class="QDoubleSpinBox" name="A_x">
     <property name="geometry">
      <rect>
       <x>150</x>
-      <y>190</y>
+      <y>200</y>
       <width>62</width>
       <height>22</height>
      </rect>
@@ -106,27 +106,27 @@
    <widget class="QPushButton" name="button_FindFile">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>40</y>
-      <width>151</width>
+      <x>40</x>
+      <y>30</y>
+      <width>171</width>
       <height>28</height>
      </rect>
     </property>
     <property name="text">
-     <string>Find obstacles file</string>
+     <string>Ouvrir un fichier d'obstacles</string>
     </property>
    </widget>
    <widget class="QPushButton" name="button_PlotEnvir">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>120</y>
-      <width>121</width>
+      <x>10</x>
+      <y>140</y>
+      <width>161</width>
       <height>28</height>
      </rect>
     </property>
     <property name="text">
-     <string>Plot environment</string>
+     <string>Dessiner l'environnement</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_3">
@@ -139,79 +139,78 @@
      </rect>
     </property>
     <property name="text">
-     <string>Step 1 :</string>
+     <string>Etape 1 :</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_4">
     <property name="geometry">
      <rect>
       <x>100</x>
-      <y>70</y>
+      <y>60</y>
       <width>53</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>Step 2:</string>
+     <string>Etape 2:</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
       <x>100</x>
-      <y>160</y>
+      <y>170</y>
       <width>53</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>Step 3:</string>
+     <string>Etape 3:</string>
     </property>
    </widget>
-   <widget class="QCheckBox" name="checkBox_detailgraph">
+   <widget class="QCheckBox" name="checkBox_method">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>310</y>
-      <width>111</width>
+      <x>10</x>
+      <y>320</y>
+      <width>141</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>Show prompt</string>
+     <string>Méthode Approchée</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+    <property name="tristate">
+     <bool>false</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="button_LaunchAlgo">
     <property name="geometry">
      <rect>
       <x>70</x>
-      <y>350</y>
+      <y>400</y>
       <width>121</width>
       <height>28</height>
      </rect>
     </property>
     <property name="text">
-     <string>Launch Dijikstra</string>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="checkBox_detailenvir">
-    <property name="geometry">
-     <rect>
-      <x>70</x>
-      <y>90</y>
-      <width>101</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Show Details</string>
+     <string>Lancer Dijikstra</string>
     </property>
    </widget>
    <widget class="QDoubleSpinBox" name="A_y">
     <property name="geometry">
      <rect>
       <x>150</x>
-      <y>220</y>
+      <y>230</y>
       <width>62</width>
       <height>22</height>
      </rect>
@@ -233,7 +232,7 @@
     <property name="geometry">
      <rect>
       <x>150</x>
-      <y>280</y>
+      <y>290</y>
       <width>62</width>
       <height>22</height>
      </rect>
@@ -255,7 +254,7 @@
     <property name="geometry">
      <rect>
       <x>150</x>
-      <y>250</y>
+      <y>260</y>
       <width>62</width>
       <height>22</height>
      </rect>
@@ -277,7 +276,7 @@
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>190</y>
+      <y>200</y>
       <width>53</width>
       <height>16</height>
      </rect>
@@ -290,7 +289,7 @@
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>250</y>
+      <y>260</y>
       <width>53</width>
       <height>16</height>
      </rect>
@@ -303,7 +302,7 @@
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>220</y>
+      <y>230</y>
       <width>53</width>
       <height>16</height>
      </rect>
@@ -316,13 +315,294 @@
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>280</y>
+      <y>290</y>
       <width>53</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
      <string>Y=</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_10">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>10</y>
+      <width>51</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>X_clic =</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="X_val">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>10</y>
+      <width>53</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_12">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>10</y>
+      <width>51</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Y_clic =</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="Y_val">
+    <property name="geometry">
+     <rect>
+      <x>480</x>
+      <y>10</y>
+      <width>53</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_11">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>440</y>
+      <width>141</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Résultats de l'algorithme</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_13">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>380</y>
+      <width>53</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Etape 4:</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="button_selec_A">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>220</y>
+      <width>93</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Selec P.I.</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="button_selec_B">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>280</y>
+      <width>93</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Selec P.F.</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBox_padding">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>80</y>
+      <width>141</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Gestion du padding</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_14">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>110</y>
+      <width>53</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Padding</string>
+    </property>
+   </widget>
+   <widget class="QDoubleSpinBox" name="Pad_val">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>110</y>
+      <width>51</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::ClickFocus</enum>
+    </property>
+    <property name="decimals">
+     <number>2</number>
+    </property>
+    <property name="minimum">
+     <double>-10.000000000000000</double>
+    </property>
+    <property name="maximum">
+     <double>10.000000000000000</double>
+    </property>
+    <property name="singleStep">
+     <double>0.010000000000000</double>
+    </property>
+   </widget>
+   <widget class="QDoubleSpinBox" name="Pad_N">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>110</y>
+      <width>51</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::ClickFocus</enum>
+    </property>
+    <property name="decimals">
+     <number>0</number>
+    </property>
+    <property name="minimum">
+     <double>3.000000000000000</double>
+    </property>
+    <property name="maximum">
+     <double>10000.000000000000000</double>
+    </property>
+    <property name="singleStep">
+     <double>1.000000000000000</double>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_15">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>110</y>
+      <width>53</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Points</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="button_ResetEnvir">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>140</y>
+      <width>41</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Reset</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox">
+    <property name="geometry">
+     <rect>
+      <x>152</x>
+      <y>80</y>
+      <width>81</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>Simpliste</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Evoluée</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLabel" name="label_16">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>320</y>
+      <width>53</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>N_disc</string>
+    </property>
+   </widget>
+   <widget class="QDoubleSpinBox" name="Disc_N">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>320</y>
+      <width>41</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <kerning>true</kerning>
+     </font>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::ClickFocus</enum>
+    </property>
+    <property name="frame">
+     <bool>true</bool>
+    </property>
+    <property name="accelerated">
+     <bool>true</bool>
+    </property>
+    <property name="keyboardTracking">
+     <bool>true</bool>
+    </property>
+    <property name="decimals">
+     <number>0</number>
+    </property>
+    <property name="minimum">
+     <double>3.000000000000000</double>
+    </property>
+    <property name="maximum">
+     <double>10000.000000000000000</double>
+    </property>
+    <property name="singleStep">
+     <double>1.000000000000000</double>
+    </property>
+    <property name="value">
+     <double>100.000000000000000</double>
     </property>
    </widget>
    <zorder>customPlot</zorder>
@@ -334,9 +614,8 @@
    <zorder>label_3</zorder>
    <zorder>label_4</zorder>
    <zorder>label_5</zorder>
-   <zorder>checkBox_detailgraph</zorder>
+   <zorder>checkBox_method</zorder>
    <zorder>button_LaunchAlgo</zorder>
-   <zorder>checkBox_detailenvir</zorder>
    <zorder>label_6</zorder>
    <zorder>label_7</zorder>
    <zorder>label_8</zorder>
@@ -345,13 +624,30 @@
    <zorder>A_y</zorder>
    <zorder>B_x</zorder>
    <zorder>B_y</zorder>
+   <zorder>label_10</zorder>
+   <zorder>X_val</zorder>
+   <zorder>label_12</zorder>
+   <zorder>Y_val</zorder>
+   <zorder>label_11</zorder>
+   <zorder>label_13</zorder>
+   <zorder>button_selec_A</zorder>
+   <zorder>button_selec_B</zorder>
+   <zorder>checkBox_padding</zorder>
+   <zorder>label_14</zorder>
+   <zorder>Pad_val</zorder>
+   <zorder>Pad_N</zorder>
+   <zorder>label_15</zorder>
+   <zorder>button_ResetEnvir</zorder>
+   <zorder>comboBox</zorder>
+   <zorder>label_16</zorder>
+   <zorder>Disc_N</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>650</width>
+     <width>800</width>
      <height>26</height>
     </rect>
    </property>
