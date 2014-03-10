@@ -189,7 +189,6 @@ void plotting::createNewSegments(pairsom pair)
         if (testdir==true)
         {
             adddir++;
-            qDebug()<<"Segment direct";
             qDebug()<<Envir_tmp_check.front().Traverse(seg_dir);
             break;
         }

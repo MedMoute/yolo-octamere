@@ -21,7 +21,7 @@ segment::segment(sommet S, std::pair<double, double> _coords)
 {
     S1=S;
     coords=_coords;
-    sommet _S2(S.Xcoord()+_coords.second,S.Ycoord()+_coords.second);
+    sommet _S2(S.Xcoord()+_coords.first,S.Ycoord()+_coords.second);
     S2=_S2;
 }
 
@@ -85,8 +85,8 @@ std::vector<sommet> segment::Discret(int n)
     float y2 = S2.Ycoord();
 
     float a = (y2-y1)/(x2-x1); //pente du segment
-    float b = y2-a*x2; //ordonnÃ©e a l'origine
-    float eps = sqrt(pow(y2-y1,2)+pow(x2-x1,2))/(n+1); //pas de discrÃ©tisation
+    float b = y2-a*x2; //ordonnée a l'origine
+    float eps = sqrt(pow(y2-y1,2)+pow(x2-x1,2))/(n+1); //pas de discrétisation
     float Cos = x1/sqrt(pow(y1-b,2)+pow(x1,2));
 
     std::vector<sommet> points;
@@ -104,21 +104,25 @@ std::vector<sommet> segment::Discret(int n)
 
 sommet segment::projOrth(sommet C)
 {
+    //qDebug()<<"Projection de ("<<C.Xcoord()<<";"<<C.Ycoord()<<") sur"<<"("<<S1.Xcoord()<<";"<<S1.Ycoord()<<")->"<<"("<<S2.Xcoord()<<";"<<S2.Ycoord()<<")";
     sommet A=S1;
     segment AC(A,C);
+    segment AB(S1,S2);
 
-    float Long=sqrt((coords.first)*(coords.second)+(coords.second)*(coords.second));
+    float Long=sqrt((AB.getCoords().first)*(AB.getCoords().first)+(AB.getCoords().second)*(AB.getCoords().second));
 
     float P=coords.first*AC.getCoords().first+coords.second*AC.getCoords().second;
     float Pnorm=P/((Long)*(Long));
+    //qDebug()<<Pnorm<<"="<<P<<"/"<<Long<<"²";
     double Coord_pX=Pnorm*coords.first;
     double Coord_pY=Pnorm*coords.second;
 
 
     std::pair<double,double> P_Coords=std::make_pair(Coord_pX,Coord_pY);
     segment Proj(A,P_Coords);
-    return Proj.getSommet().second;
 
+   // qDebug()<<"Résultat: ("<<Proj.getSommet().second.Xcoord()<<";"<<Proj.getSommet().second.Ycoord()<<")";
+    return Proj.getSommet().second;
 }
 
 std::pair<double,double> segment::getCoords()
