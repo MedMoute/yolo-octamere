@@ -12,6 +12,11 @@ segment arc::getSegment() const //récupère les trucs dans private
     return seg;
 }
 
+float arc::getLong() const
+{
+    return l;
+}
+
 arc::arc(segment segseg) //constructeur avec valeur
 {
   seg=segseg;

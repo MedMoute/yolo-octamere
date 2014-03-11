@@ -285,6 +285,92 @@ void plotting::drawGraph()
     customPlot->rescaleAxes();
     customPlot->replot();
 
+}
+/*
+bool plotting::QuiaLaPlusPetite (const std::pair<sommet,float>& michel,const std::pair<sommet,float>& micheline)
+{
+  /*  std::pair<sommet,float> T;
+    T=michel.front();
+    std::vector<sommet> michelsort;
+    for (int i=0; i=michel.size(); i++)
+    {
+        if (T.second<michel[i].second)
+        {
+            T=michel[i];
+            Rank_T=i;
+        }
+    }
+
+    return T;
+
+
+    return(michel.second<micheline.second);
+}
+*/
+void plotting::Dijkstra (pairsom pair)
+{
+    sommet A=pair.first; //point de départ
+    sommet B=pair.second; //point d'arrivée
+    std::vector< std::pair<sommet,float> > l; //longueur du plus court chemin entre sommet et A
+    std::list<sommet>  p; //p(i)= sommet précédant i
+    std::list<sommet> S;
+    std::list<sommet> T;
+    std::vector< std::vector<float> >  c; //cij=d(i,j)
+    std::list<arc> arcs=graph->getGraph();
+    std::list<obstacle> obstacles=getObstacles()->getEnvir();
+    int Npts=0;
+    std::vector<sommet> sommets;
+    std::list<sommet> sommetlist;
+    int n=obstacles.size();
+
+    sommets.push_back(A);
+    for (int i=0; i=n; i++)
+    {
+     obstacle Obst=obstacles.front();
+     for (int j=0; j=Obst.getSommet().size(); j++)
+     {
+         sommets.push_back(Obst.getSommet()[j]);
+         Npts++;
+     }
+     obstacles.pop_front();
+    }
+    sommets.push_back(B);
+
+    //Initialisations
+    S.push_front(A);
+    l=graph->Recherche(A);
+    for(int i=0; i=Npts; i++)
+    {
+        sommetlist.push_front(sommets.back());
+        sommets.pop_back();
+    }
+    T=sommetlist;
+    T.pop_front();
+    std::vector< std::pair<sommet,float> > ltemp;
+    ltemp=l;
+
+    //Boucle ta race de mes deux
+    while (!T.empty())
+    {
+
+        sommet michel;
+        T.sort(pA_comp());
+
+        qDebug()<<;
+
+      /*  if ((QuiaLaPlusPetite(ltemp).second));
+        {
+
+        }
+        ltemp=graph->Recherche(michel);
+*/
+
+
+    }
+
+
+
 
 
 }
+

@@ -11,6 +11,7 @@ private :
 public :
     arc();
     segment getSegment() const;
+    float getLong() const;
     arc (segment segseg);
     ~arc ();
     arc & operator = (const arc & A);
