@@ -73,8 +73,8 @@ void MainWindow::on_button_PlotGraph_clicked()
 
 void MainWindow::on_button_LaunchAlgo_clicked()
 {
-   // Plot->Dijkstra(this->getMainPoints());
-   // Plot->drawGraphDijik();
+   Plot->Dijkstra(this->getMainPoints());
+   Plot->drawGraphDijik();
 }
 
 void MainWindow::on_button_selec_A_clicked()

@@ -6,6 +6,7 @@ plotting::plotting()
 {
     this->obstacles = new environnement;
     this->graph=new graphe;
+    this->grapheDijik=new graphe;
 }
 
 void plotting::drawEnvironment()
@@ -312,7 +313,7 @@ void plotting::Dijkstra (pairsom pair)
     sommet A=pair.first; //point de départ
     sommet B=pair.second; //point d'arrivée
     //std::vector< std::pair<sommet,float> > l; //longueur du plus court chemin entre sommet et A
-    std::list<sommet>  p; //p(i)= sommet précédant i
+    std::list<sommet>  p(A); //p(i)= sommet précédant i
     std::list<sommet> S;
     std::list<sommet> T;
     std::list<arc> arcs=graph->getGraph();
@@ -472,7 +473,6 @@ void plotting::Dijkstra (pairsom pair)
                             c[Nit][j2]+=l_temp3.back().second;
                         }
                         l_temp3.pop_back();
-                        qDebug()<<"Obitehel de T6";
                     }
                     if (!points.empty())
                     {points.pop_front();}
@@ -488,8 +488,6 @@ void plotting::Dijkstra (pairsom pair)
     std::list<arc> arks;
     for (unsigned int i3=0;i3<p.size();i3++)
     {
-        qDebug()<<p_tmp.size();
-        qDebug()<<"Coucou";
         sommet sommet1_tmp=p_tmp.front();
         p_tmp.pop_front();
         sommet sommet2_tmp=p_tmp.front();
@@ -520,7 +518,7 @@ void plotting::drawGraphDijik ()
         plot_data.insert(1,data2);
 
         plot->addData(plot_data);
-        plot->setPen(QPen(Qt::black));
+        plot->setPen(QPen(Qt::black,3,Qt::DashLine));
 
         plot_list.push_back(plot);
 
