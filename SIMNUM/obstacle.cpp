@@ -159,16 +159,55 @@ bool obstacle::TestInside ( const sommet S)
                 Ndroite++;
             }
         }
-        else if (a==0&&Y==b&&(((X>=x1)&&(X<=x2))||((X>=x2)&&(X<=x1))))//segment horizontal d'ordonée b qui entoure le point
+        else//segment horizontal ou vertical : rotation du plan
         {
-            //Condition fausse
-            return true;
+            float Xr=((sqrt(2)/2)*X-(sqrt(2)/2)*Y);
+            float Yr=((sqrt(2)/2)*X+(sqrt(2)/2)*Y);
+
+            float x1;
+            float y1;
+            float x2;
+            float y2;
+            if (i==segments.size()-1)
+            {
+                x1=(sqrt(2)/2)*sommets[i].Xcoord()-(sqrt(2)/2)*sommets[i].Ycoord();
+                y1=(sqrt(2)/2)*sommets[i].Ycoord()+(sqrt(2)/2)*sommets[i].Xcoord();
+                x2=(sqrt(2)/2)*sommets[0].Xcoord()-(sqrt(2)/2)*sommets[0].Ycoord();
+                y2=(sqrt(2)/2)*sommets[0].Ycoord()+(sqrt(2)/2)*sommets[0].Xcoord();
+            }
+            else
+            {
+                x1=(sqrt(2)/2)*sommets[i].Xcoord()-(sqrt(2)/2)*sommets[i].Ycoord();
+                y1=(sqrt(2)/2)*sommets[i].Ycoord()+(sqrt(2)/2)*sommets[i].Xcoord();
+                x2=(sqrt(2)/2)*sommets[i+1].Xcoord()-(sqrt(2)/2)*sommets[i+1].Ycoord();
+                y2=(sqrt(2)/2)*sommets[i+1].Ycoord()+(sqrt(2)/2)*sommets[i+1].Xcoord();
+            }
+
+            //Pente et ordonée à l'origine de la droite portant le segment i
+            float a=(y1-y2)/(x1-x2);//Pente
+            float b=y1-a*x1;//Ordonnée à l'origine
+
+            float xI=(Yr-b)/a;
+
+            //qDebug()<<xI;
+
+            if(Y==xI*a)//Test du cas ou le point intersecte le segment : on considère que le point n'est PAS dans l'obstacle
+            {
+                break;
+            }
+
+            //Test si le point d'intersection est bien sur le segment et compte le nombre de points d'intersection
+            else if ((((x1<x2)&&(xI>=x1)&&(xI<=x2))||((x1>x2)&&(xI>=x2)&&(xI<=x1)))&&(xI<=Xr))
+            {
+                Ngauche++;
+            }
+            else if ((((x1<x2)&&(xI>=x1)&&(xI<=x2))||((x1>x2)&&(xI>=x2)&&(xI<=x1)))&&(xI>=Xr))
+            {
+                Ndroite++;
+            }
+
         }
-        else if (!IsFiniteNumber(a)&&Y==b&&(((X>=x1)&&(X<=x2))||((X>=x2)&&(X<=x1))))//segment horizontal d'ordonée b qui entoure le point
-        {
-            //Condition fausse
-            return true;
-        }
+
     }
 
     if ((Ngauche%2==0)&&(Ndroite%2==0))    //Test sur la parité de N : si il est impair le point est dans l'obstacle, sinon il est à l'extérieur
