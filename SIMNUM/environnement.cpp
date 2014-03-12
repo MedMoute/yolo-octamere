@@ -62,9 +62,9 @@ void environnement::setPoints(QString path,bool b,int mode)
                 obstacle obst(curObst);
                 std::vector<sommet> soms;
                 std::vector<segment>segs;
-                if (mode==1)
+                if (mode==1)//Mode évolué
                 {
-                    for (unsigned int i=0;i<obst.getSegment().size();i++)//Pour tout les points
+                    for (unsigned int i=0;i<obst.getSegment().size();i++)//Pour tout les points on détermine les segments antérieurs et ultérieurs
                     {
                         sommet curSom=obst.getSommet()[i];
                         segment  seg_ant;
@@ -91,9 +91,8 @@ void environnement::setPoints(QString path,bool b,int mode)
                             seg_ult=seg_ult_t;
                         }
                         float lg=seg_ant.longueur(seg_ant);
-                        segment seg_norm=seg_ant.normale();//On ajoute Pi/2 (norm sortante)
-                        double X_Vn=seg_norm.getCoords().first;
-                        double Y_Vn=seg_norm.getCoords().second;
+                        double X_Vn=seg_ant.getCoords().first;
+                        double Y_Vn=seg_ant.getCoords().second;
 
                         double X_Un=curSom.Xcoord()+X_Vn/lg*padding;
                         double Y_Un=curSom.Ycoord()+Y_Vn/lg*padding;
@@ -119,20 +118,24 @@ void environnement::setPoints(QString path,bool b,int mode)
                             double X=curSom.Xcoord();
                             double Y=curSom.Ycoord();
 
-                            double theta_ant=atan(seg_ant.getCoords().second/seg_ant.getCoords().first);
-                            double theta_ult=atan(seg_ult.getCoords().second/seg_ult.getCoords().first);
-                            double B_sup=std::max(theta_ant,theta_ult);
-                            double B_inf=std::min(theta_ant,theta_ult);
-                            for(int k=0;k<precision;k++)
+                            double B_ant=fmod(atan(seg_ant.getCoords().second/seg_ant.getCoords().first),2*Pi);
+                            double B_ult=fmod(atan(seg_ult.getCoords().second/seg_ult.getCoords().first),2*Pi);
+                            double alpha;
+                            if ((B_ant<0) == (B_ult<0))//same sign
                             {
-                                if(2*Pi*k/precision<B_sup&&2*Pi*k/precision>=B_inf)
-                                {
-                                    double Xi=padding*cos(2*Pi*k/precision);
-                                    double Yi=padding*sin(2*Pi*k/precision);
-                                    sommet newSom(X+Xi,Y+Yi);
-                                    soms.push_back(newSom);
+                                alpha=2*Pi-std::abs(B_ant+B_ult);
+                            }
+                            else
+                            {
+                                alpha=B_ult-B_ant-Pi;
+                            }
 
-                                }
+                            for(int k=0;(2*k*Pi/precision)<(std::abs(Pi-alpha));k++)
+                            {
+                                double Xi=padding*cos(2*Pi*k/precision+(B_ant)+Pi/2);
+                                double Yi=padding*sin(2*Pi*k/precision+(B_ant)+Pi/2);
+                                sommet newSom(X+Xi,Y+Yi);
+                                soms.push_back(newSom);
 
                             }
                         }

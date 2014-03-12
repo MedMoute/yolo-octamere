@@ -188,36 +188,34 @@ void plotting::createNewSegments(pairsom pair,int n)
         while (!Envir_tmp_2.empty()) //Deuxième boucle de choix sur les obstacles
         {
 
-                obstacle obst_tmp_2=Envir_tmp_2.front();
-                int m=obst_tmp.getSommet().size();
-                int m2=obst_tmp_2.getSommet().size();
-                for(int j=0;j<m;j++)
+            obstacle obst_tmp_2=Envir_tmp_2.front();
+            int m=obst_tmp.getSommet().size();
+            int m2=obst_tmp_2.getSommet().size();
+            for(int j=0;j<m;j++)
+            {
+                for(int j2=0;j2<m2;j2++)
                 {
-                    for(int j2=0;j2<m2;j2++)
+                    segment seg_tmp(obst_tmp.getSommet()[j],obst_tmp_2.getSommet()[j2]); //création du segment
+                    arc arc_tmp(seg_tmp);
+                    bool add=true;
+                    std::list<obstacle> Envir_tmp_check=obstacles->getEnvir();
+                    for (int k=0;k<l;k++)//Boucle de vérification sur les obstacles (traverse)
                     {
-                        segment seg_tmp(obst_tmp.getSommet()[j],obst_tmp_2.getSommet()[j2]); //création du segment
-                        arc arc_tmp(seg_tmp);
-                        bool add=true;
-                        std::list<obstacle> Envir_tmp_check=obstacles->getEnvir();
-                        for (int k=0;k<l;k++)//Boucle de vérification sur les obstacles (traverse)
+                        obstacle obst=Envir_tmp_check.front();
+                        bool test=obst.Traverse(seg_tmp,n); //Test de la validité des nouveaux arcs
+                        if (test==true)
                         {
-                            obstacle obst=Envir_tmp_check.front();
-                            bool test=obst.Traverse(seg_tmp,n); //Test de la validité des nouveaux arcs
-                            //qDebug()<<test;
-                            if (test==true)
-                            {
-                                add=false;
-                                break;
-                            }
-                            else
-                            {}
-                            Envir_tmp_check.pop_front();
+                            add=false;
+                            break;
                         }
-                        if (add==true)
-                        {
-                            tmp_graph.push_back(arc_tmp);
-                        }
-
+                        else
+                        {}
+                        Envir_tmp_check.pop_front();
+                    }
+                    if (add==true)
+                    {
+                        tmp_graph.push_back(arc_tmp);
+                    }
                 }
             }
             Envir_tmp_2.pop_front();
@@ -289,7 +287,7 @@ void plotting::drawGraph()
 /*
 bool plotting::QuiaLaPlusPetite (const std::pair<sommet,float>& michel,const std::pair<sommet,float>& micheline)
 {
-  /*  std::pair<sommet,float> T;
+ std::pair<sommet,float> T;
     T=michel.front();
     std::vector<sommet> michelsort;
     for (int i=0; i=michel.size(); i++)
@@ -309,68 +307,231 @@ bool plotting::QuiaLaPlusPetite (const std::pair<sommet,float>& michel,const std
 */
 void plotting::Dijkstra (pairsom pair)
 {
+    bool fini=false;
+    qDebug()<<"On entre ds Dijik";
     sommet A=pair.first; //point de départ
     sommet B=pair.second; //point d'arrivée
-    std::vector< std::pair<sommet,float> > l; //longueur du plus court chemin entre sommet et A
+    //std::vector< std::pair<sommet,float> > l; //longueur du plus court chemin entre sommet et A
     std::list<sommet>  p; //p(i)= sommet précédant i
     std::list<sommet> S;
     std::list<sommet> T;
-    std::vector< std::vector<float> >  c; //cij=d(i,j)
     std::list<arc> arcs=graph->getGraph();
     std::list<obstacle> obstacles=getObstacles()->getEnvir();
-    int Npts=0;
+    int Npts=2;
     std::vector<sommet> sommets;
     std::list<sommet> sommetlist;
     int n=obstacles.size();
-
+    qDebug()<<"bite";
     sommets.push_back(A);
-    for (int i=0; i=n; i++)
+    for (int i=0; i<n; i++)
     {
-     obstacle Obst=obstacles.front();
-     for (int j=0; j=Obst.getSommet().size(); j++)
-     {
-         sommets.push_back(Obst.getSommet()[j]);
-         Npts++;
-     }
-     obstacles.pop_front();
+        obstacle Obst=obstacles.front();
+        for (unsigned int j=0; j<Obst.getSommet().size(); j++)
+        {
+            sommets.push_back(Obst.getSommet()[j]);
+            Npts++;
+        }
+        obstacles.pop_front();
     }
     sommets.push_back(B);
-
+    qDebug()<<"bite1";
     //Initialisations
+    qDebug()<<"On entre ds l'init de dijik";
+    qDebug()<<"On a"<< Npts<<"points, c'est cool !";
+    std::vector<float> Boite(Npts,INFINITY);
+    std::vector< std::vector<float> >  c(Npts,Boite); //cij=d(i,j)
+
     S.push_front(A);
     l=graph->Recherche(A);
-    for(int i=0; i=Npts; i++)
+    for(int j=0; j<Npts; j++)
     {
         sommetlist.push_front(sommets.back());
+
+        std::vector< std::pair<sommet,float> >l_temp2=l;
+        for(unsigned int j2=0;j2<l.size();j2++)
+        {
+            if(l_temp2.back().first==sommetlist.front())
+            {
+                c[0][j]=l_temp2.back().second;
+            }
+            l_temp2.pop_back();
+        }
         sommets.pop_back();
+
     }
     T=sommetlist;
     T.pop_front();
-    std::vector< std::pair<sommet,float> > ltemp;
-    ltemp=l;
+
+
+
+
 
     //Boucle ta race de mes deux
+    qDebug()<<"On entre ds l'iteration de dijik";
+    int Nit=0;
     while (!T.empty())
     {
 
+        std::vector< std::pair<sommet,float> > ltemp=l;
         sommet michel;
-        T.sort(pA_comp());
-
-        qDebug()<<;
-
-      /*  if ((QuiaLaPlusPetite(ltemp).second));
+        qDebug()<<"On detemine le poit à choisir à cette itération";
+        for (unsigned int k=0;k<l.size();k++)
         {
+            float curLeng=INFINITY;
+            std::list<sommet> T_tmp=T;
+            bool boul=false;
+            //vérification que le point est toujours dans T
+            for(int z=0;z<T.size();z++)
+            {
+                if (T_tmp.front()==ltemp.back().first)
+                {
+                    boul=true;
+                    break;
+                }
+                else
+                {
+                    boul=false;
+                }
+                T_tmp.pop_front();
+            }
 
+            qDebug()<<boul;
+            if(ltemp.back().second<curLeng&&boul==true)
+            {
+                michel=ltemp.back().first;
+                curLeng=ltemp.back().second;
+            }
+            ltemp.pop_back();
         }
-        ltemp=graph->Recherche(michel);
-*/
+        p.push_front(michel);
+        S.push_front(michel);
+        qDebug()<<"On a deteminé le point à choisir à cette itération : ("<<michel.Xcoord()<<michel.Ycoord()<<")";
 
+        if (michel==B)
+        {
+            qDebug()<<"C'est la fete du slip";
+            break;
+        }
+        else
+        {
+            std::list<sommet> T_temp=T;
+            unsigned int T_taill=T.size();
+            qDebug()<<"Taille de T"<<T.size();
+            T.clear();
+            qDebug()<<"On supprime Michel de Tn";
+            int N=0;
+            for (unsigned int m=0;m<T_taill;m++)
+            {
 
+                if (T_temp.front().Xcoord()==michel.Xcoord()&&T_temp.front().Ycoord()==michel.Ycoord())
+                {
+
+                }
+
+                else
+                {
+                    T.push_front(T_temp.front());
+                    N++;
+
+                }
+                qDebug()<<N;
+                if (N==T_taill)
+                {
+
+                    qDebug()<<"michel n'est pas dans le lot !Damned !";
+                    fini=true;
+                }
+                T_temp.pop_front();
+            }
+            qDebug()<<"On a supprimé Michel de T";
+            qDebug()<<"Taille de T"<<T.size();
+            if (fini)
+            {
+                qDebug()<<"Finiii";
+                break;
+            }
+            else{
+                Nit++;
+                qDebug()<<"On recherche le "<<Nit<<"ieme michel dans le graphe";
+                l=graph->Recherche(michel);
+                std::list<sommet> points=sommetlist;
+                std::vector< std::pair<sommet,float> > l_temp3=l;
+                qDebug()<<"On met a jouur les poids";
+                for(int j2=0; j2<Npts; j2++)
+
+                {
+                    c[Nit][j2]=c[Nit-1][j2];
+                    if(l_temp3.back().first==points.front())
+                    {
+                        if(c[Nit-1][j2]==INFINITY)
+                        {
+                            c[Nit][j2]=l_temp3.back().second;
+                        }
+                        else
+                        {
+                            c[Nit][j2]+=l_temp3.back().second;
+                        }
+                        l_temp3.pop_back();
+                        qDebug()<<"Obitehel de T6";
+                    }
+                    if (!points.empty())
+                    {points.pop_front();}
+                }
+                qDebug()<<"On a  mis les points à jour";
+            }
+        }
     }
+    qDebug()<<"On a fini la";
 
-
-
-
-
+    std::list<sommet> p_tmp=p;
+    qDebug()<<p_tmp.size();
+    std::list<arc> arks;
+    for (unsigned int i3=0;i3<p.size();i3++)
+    {
+        qDebug()<<p_tmp.size();
+        qDebug()<<"Coucou";
+        sommet sommet1_tmp=p_tmp.front();
+        p_tmp.pop_front();
+        sommet sommet2_tmp=p_tmp.front();
+        segment seg_tmp(sommet1_tmp,sommet2_tmp);
+        arc arc_tmp(seg_tmp);
+        arks.push_front(arc_tmp);
+    }
+        qDebug()<<"On y est presque ! !";
+    grapheDijik->setGraph(arks);
+    qDebug()<<"Balance la sauce !";
 }
 
+void plotting::drawGraphDijik ()
+{
+    std::list<arc> tmp_grph=grapheDijik->getGraph();
+    int l=tmp_grph.size();
+
+    QCPCurveDataMap plot_data;
+    std::list<QCPCurve*> plot_list;
+
+
+    for (int i=0;i<l;i++)
+    {
+        QCPCurve* plot = new QCPCurve(customPlot->xAxis, customPlot->yAxis);
+        QCPCurveData data(0,tmp_grph.front().getSegment().getSommet().first.Xcoord(),tmp_grph.front().getSegment().getSommet().first.Ycoord());
+        plot_data.insert(0,data);
+        QCPCurveData data2(1,tmp_grph.front().getSegment().getSommet().second.Xcoord(),tmp_grph.front().getSegment().getSommet().second.Ycoord());
+        plot_data.insert(1,data2);
+
+        plot->addData(plot_data);
+        plot->setPen(QPen(Qt::black));
+
+        plot_list.push_back(plot);
+
+        customPlot->addPlottable(plot_list.back());
+
+        tmp_grph.pop_front();
+
+    }
+    customPlot->setVisible(true);
+    customPlot->axisRect()->setupFullAxesBox();
+    customPlot->rescaleAxes();
+    customPlot->replot();
+
+}

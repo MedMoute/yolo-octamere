@@ -32,16 +32,19 @@ void MainWindow::on_button_FindFile_clicked()
 void MainWindow::on_button_PlotEnvir_clicked()
 {
 
-        if (ui->checkBox_padding->isChecked())
-        {
-            Plot->getObstacles()->setEnvironment(this->getFileName(),ui->Pad_val->value(),ui->Pad_N->value(),ui->comboBox->currentIndex());
-            Plot->drawEnvironment();
-        }
-        else
-        {
-            Plot->getObstacles()->setEnvironment(this->getFileName());
-            Plot->drawEnvironment();
-        }
+    if (ui->checkBox_padding->isChecked())
+    {
+        Plot->getObstacles()->setEnvironment(this->getFileName());
+        Plot->drawEnvironment();
+        Plot->resetEnvironment();
+        Plot->getObstacles()->setEnvironment(this->getFileName(),ui->Pad_val->value(),ui->Pad_N->value(),ui->comboBox->currentIndex());
+        Plot->drawEnvironment();
+    }
+    else
+    {
+        Plot->getObstacles()->setEnvironment(this->getFileName());
+        Plot->drawEnvironment();
+    }
 }
 void MainWindow::on_button_ResetEnvir_clicked()
 {
@@ -70,7 +73,8 @@ void MainWindow::on_button_PlotGraph_clicked()
 
 void MainWindow::on_button_LaunchAlgo_clicked()
 {
-
+   // Plot->Dijkstra(this->getMainPoints());
+   // Plot->drawGraphDijik();
 }
 
 void MainWindow::on_button_selec_A_clicked()

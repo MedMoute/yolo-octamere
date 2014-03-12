@@ -43,6 +43,7 @@ public:
    // bool QuiaLaPlusPetite(const std::pair<sommet, float>&, const std::pair<sommet, float>&); //true si michel se fait dominer par micheline
 
     void Dijkstra (pairsom pair);
+    void drawGraphDijik ();
 
 private:
     QString fileName;
@@ -51,12 +52,15 @@ private:
     environnement* obstacles;
 
     graphe* graph;
-};
+    graphe* grapheDijik;
 
+    std::vector<std::pair<sommet,float> > l;
+};
+/*
 struct pA_comp {
     bool operator() (sommet& left,sommet& right) const {
-        return ((left.Xcoord()-)*(left.Xcoord()-)+(left.Ycoord()-)*(left.Ycoord()-)) < ((right.Xcoord()-)*(right.Xcoord()-)+(right.Ycoord())*(right.Ycoord()));
+        return ((left.Xcoord())*(left.Xcoord())+(left.Ycoord())*(left.Ycoord())) < ((right.Xcoord()*(right.Xcoord())+(right.Ycoord())*(right.Ycoord()));
     }
-};
+};*/
 
 #endif // PLOTTING_H

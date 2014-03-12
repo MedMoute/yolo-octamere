@@ -14,6 +14,8 @@ public:
     ~sommet ();
     sommet & operator = (sommet S);
 
+    bool operator ==(sommet S);
+
 
 };
 

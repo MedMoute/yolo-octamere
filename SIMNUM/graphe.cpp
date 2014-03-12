@@ -1,4 +1,5 @@
 #include "graphe.h"
+#include <QDebug>
 
 graphe::graphe() //constructeur par défaut
 {
@@ -34,10 +35,11 @@ void graphe::setGraph( std::list<arc> & _graph)
 
 std::vector< std::pair<sommet,float> > graphe::Recherche(sommet A)
 {
+        qDebug()<<"On entre ds Recherche";
     std::vector< std::pair<sommet,float> > l;
     std::list<arc> arclist=arcs;
     arc arctemp;
-    for (int i=0; i=arcs.size(); i++)
+    for (unsigned int i=0; i<arcs.size(); i++)
     {
         arctemp=arclist.front();
         segment seg=arctemp.getSegment();
@@ -58,5 +60,7 @@ std::vector< std::pair<sommet,float> > graphe::Recherche(sommet A)
 
         arclist.pop_front();
     }
+
+    qDebug()<<"On est sorti de Recherche";
     return l;
 }

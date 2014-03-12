@@ -159,15 +159,11 @@ bool obstacle::TestInside ( const sommet S)
                 Ndroite++;
             }
         }
-        else//segment horizontal ou vertical : rotation du plan
+        else//segment horizontal ou vertical : rotation des points
         {
             float Xr=((sqrt(2)/2)*X-(sqrt(2)/2)*Y);
             float Yr=((sqrt(2)/2)*X+(sqrt(2)/2)*Y);
 
-            float x1;
-            float y1;
-            float x2;
-            float y2;
             if (i==segments.size()-1)
             {
                 x1=(sqrt(2)/2)*sommets[i].Xcoord()-(sqrt(2)/2)*sommets[i].Ycoord();
@@ -185,6 +181,7 @@ bool obstacle::TestInside ( const sommet S)
 
             //Pente et ordonée à l'origine de la droite portant le segment i
             float a=(y1-y2)/(x1-x2);//Pente
+
             float b=y1-a*x1;//Ordonnée à l'origine
 
             float xI=(Yr-b)/a;
@@ -218,82 +215,8 @@ bool obstacle::TestInside ( const sommet S)
     {
         T=true;
     }
-    if (X>=3&&X<=4.5&&Y>=3&&Y<=4.5&&T==true)
-    {
-        //qDebug()<<"test inside de ("<<S.Xcoord()<<";"<<S.Ycoord()<<")"<<T;
-    }
     return T; //true : le point est dedans ; false il est à l'extérieur
 }
-
-//Autre version de testInside
-//
-/*
-bool obstacle::TestInside (const sommet S)
-{
-    bool T=false;
-    float X=S.Xcoord();
-    float Y=S.Ycoord();
-            //qDebug()<<X<<"   "<<Y;
-
-    int coupeGauche=0;
-    int coupeDroite=0;
-    for (unsigned int i=0; i<(sommets.size()); i++)//attention Ã  bien gÃ©rer le dernier segment
-    {
-        float X1_temp;
-        float X2_temp;
-        float Y1_temp;
-        float Y2_temp;
-
-        if (i==sommets.size())
-        {
-            X1_temp=sommets[i].Xcoord();
-            X2_temp=sommets[0].Xcoord();
-            Y1_temp=sommets[i].Ycoord();
-            Y2_temp=sommets[0].Ycoord();
-        }
-        else
-        {
-            X1_temp=sommets[i].Xcoord();
-            X2_temp=sommets[i+1].Xcoord();
-            Y1_temp=sommets[i].Ycoord();
-            Y2_temp=sommets[i+1].Ycoord();
-        }
-
-        float Xcut=X1_temp+(X2_temp-X1_temp)*(Y-Y1_temp)/(Y2_temp-Y1_temp);
-
-
-        if((Xcut>=X1_temp&&Xcut<=X2_temp)||(Xcut<=X1_temp&&Xcut>=X2_temp))
-        {
-            if (Xcut<X)
-            {
-                coupeGauche++;
-            }
-            else if (Xcut>X)
-            {
-                coupeDroite++;
-            }
-            else
-            {
-                coupeDroite++;
-                coupeGauche++;
-            }
-        }
-    }
-   // qDebug()<<coupeDroite<<"       "<<coupeGauche;
-    if (coupeDroite%2==1||coupeGauche%2==1)
-    {
-            qDebug()<<"Coords du point testé (Test Inside) :("<<S.Xcoord()<<";"<<S.Ycoord()<<")Le point est dans l'obstacle considéré";
-        T=true;
-    }
-    else
-    {
-            qDebug()<<"Coords du point testé (Test Inside) :("<<S.Xcoord()<<";"<<S.Ycoord()<<")Le point n'est pas dans l'obstacle considéré";
-        T=false;
-    }
-
-
-        return T;
-}*/
 
 bool obstacle::Traverse ( segment  seg, int n)
 {

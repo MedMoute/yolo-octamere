@@ -29,3 +29,8 @@ sommet & sommet::operator = (sommet S) //operateur =
           y=S.Ycoord();
     return * this;
 }
+
+bool sommet::operator ==(sommet S)
+{
+    return (x==S.Xcoord()&&y==S.Ycoord());
+}
