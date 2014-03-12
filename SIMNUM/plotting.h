@@ -16,6 +16,8 @@ typedef std::pair< std::vector< double > , std::vector< double > > dataarray;
 class plotting
 {
 public:
+    int Rank_T;
+
     plotting();
 
     void resetEnvironment();
@@ -38,6 +40,9 @@ public:
     void createNewSegments(pairsom pair,int n); //  Transforme Envir de obstacles en graphe
                                  // A l'intérieur crée ts les segs mais ne garde que ceux qui sont OK (eux qui coupent/passent pas dans un obstacle)
     void drawGraph(); //dessine tous le graphe validé
+   // bool QuiaLaPlusPetite(const std::pair<sommet, float>&, const std::pair<sommet, float>&); //true si michel se fait dominer par micheline
+
+    void Dijkstra (pairsom pair);
 
 private:
     QString fileName;
@@ -48,6 +53,10 @@ private:
     graphe* graph;
 };
 
-
+struct pA_comp {
+    bool operator() (sommet& left,sommet& right) const {
+        return ((left.Xcoord()-)*(left.Xcoord()-)+(left.Ycoord()-)*(left.Ycoord()-)) < ((right.Xcoord()-)*(right.Xcoord()-)+(right.Ycoord())*(right.Ycoord()));
+    }
+};
 
 #endif // PLOTTING_H

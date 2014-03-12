@@ -13,7 +13,8 @@ public:
     graphe (std::list<arc> arks); //Je me demande si ce jean-michel est vraiment nécessaire vu qu'on a déjà l'opérateur = (enfin je vais le faire)
     ~graphe ();
     graphe & operator = (const graphe & grph);
-private :
+    std::vector< std::pair<sommet,float> > Recherche(sommet A); //Recherche les adjacents et donne la distance
+ private :
     std::list<arc> arcs;
 };
 

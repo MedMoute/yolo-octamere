@@ -4,6 +4,7 @@
 #include "sommet.h"
 #include "segment.h"
 #include "obstacle.h"
+#include "graphe.h"
 #include <vector>
 #include <QString>
 #include <iostream>
