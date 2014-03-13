@@ -45,6 +45,20 @@ segment & segment::operator = (const segment & seg) //operateur =
     return * this;
 }
 
+    bool segment::operator ==(const segment & seg)
+    {
+        if((seg.getSommet().first==S1&&seg.getSommet().second==S2)||(seg.getSommet().second==S1&&seg.getSommet().first==S2))
+        {
+             return true;
+        }
+        else
+        {
+            return false;
+        }
+
+
+    }
+
 float segment::longueur(segment seg) //longueur d'un segment
 {
     float l;

@@ -25,6 +25,8 @@ public:
 
     segment & operator = (const segment & seg);
 
+    bool operator ==(const segment & seg);
+
     float longueur(segment seg);
     segment normale();
     pairsom getSommet() const;

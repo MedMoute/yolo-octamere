@@ -308,15 +308,15 @@ bool plotting::QuiaLaPlusPetite (const std::pair<sommet,float>& michel,const std
 */
 void plotting::Dijkstra (pairsom pair)
 {
+    grapheDijik->getGraph().clear();
     bool fini=false;
     qDebug()<<"On entre ds Dijik";
     sommet A=pair.first; //point de départ
     sommet B=pair.second; //point d'arrivée
-    //std::vector< std::pair<sommet,float> > l; //longueur du plus court chemin entre sommet et A
-    std::list<sommet>  p(A); //p(i)= sommet précédant i
+    std::list<sommet>  p(1,A); //p(i)= sommet précédant i
     std::list<sommet> S;
     std::list<sommet> T;
-    std::list<arc> arcs=graph->getGraph();
+    std::list<arc> arks=graph->getGraph();
     std::list<obstacle> obstacles=getObstacles()->getEnvir();
     int Npts=2;
     std::vector<sommet> sommets;
@@ -335,78 +335,95 @@ void plotting::Dijkstra (pairsom pair)
         obstacles.pop_front();
     }
     sommets.push_back(B);
+    //std::reverse(sommets.begin(),sommets.end());
     qDebug()<<"bite1";
     //Initialisations
-    qDebug()<<"On entre ds l'init de dijik";
-    qDebug()<<"On a"<< Npts<<"points, c'est cool !";
+    //qDebug()<<"On entre ds l'init de dijik";
+    //qDebug()<<"On a"<< Npts<<"points, c'est cool !";
     std::vector<float> Boite(Npts,INFINITY);
     std::vector< std::vector<float> >  c(Npts,Boite); //cij=d(i,j)
-
+    std::vector<sommet> sommets_save=sommets;
+    std::list<arc>arcs=graph->getGraph();
     S.push_front(A);
     l=graph->Recherche(A);
     for(int j=0; j<Npts; j++)
     {
-        sommetlist.push_front(sommets.back());
+        sommetlist.push_back(sommets.back());
 
         std::vector< std::pair<sommet,float> >l_temp2=l;
         for(unsigned int j2=0;j2<l.size();j2++)
         {
-            if(l_temp2.back().first==sommetlist.front())
+            if(l_temp2.back().first==sommetlist.back())
             {
                 c[0][j]=l_temp2.back().second;
             }
             l_temp2.pop_back();
         }
         sommets.pop_back();
-
     }
     T=sommetlist;
     T.pop_front();
-
-
-
-
-
     //Boucle ta race de mes deux
-    qDebug()<<"On entre ds l'iteration de dijik";
+    //qDebug()<<"On entre ds l'iteration de dijik";
     int Nit=0;
+    float CurCVal=0;
     while (!T.empty())
     {
-
-        std::vector< std::pair<sommet,float> > ltemp=l;
         sommet michel;
-        qDebug()<<"On detemine le poit à choisir à cette itération";
-        for (unsigned int k=0;k<l.size();k++)
-        {
-            float curLeng=INFINITY;
-            std::list<sommet> T_tmp=T;
-            bool boul=false;
-            //vérification que le point est toujours dans T
-            for(int z=0;z<T.size();z++)
-            {
-                if (T_tmp.front()==ltemp.back().first)
-                {
-                    boul=true;
-                    break;
-                }
-                else
-                {
-                    boul=false;
-                }
-                T_tmp.pop_front();
-            }
+        qDebug()<<"On detemine le point à choisir à cette itération";
 
-            qDebug()<<boul;
-            if(ltemp.back().second<curLeng&&boul==true)
+
+        std::list<sommet> T_tmp=T;
+
+        float CurMin=INFINITY;
+        //vérification que le point est toujours dans T
+        for(int z=0;z<T.size();z++)
+        {
+            //  qDebug()<<"bite1";
+            std::vector<sommet> sommetvtmp=sommets_save;
+            // qDebug()<<sommetvtmp.size();
+            for(int y=0;y<sommets_save.size();y++)
             {
-                michel=ltemp.back().first;
-                curLeng=ltemp.back().second;
+                // qDebug()<<"bite2";
+                if (sommetvtmp[y]==T_tmp.front())
+                {
+                    int sizesave=arks.size();
+                    std::list<arc>arcs_save=arks;
+
+                    for (int x=0;x<sizesave;x++)//Vérifie que le chemin a suivre fait partie du graphe
+                    {
+
+                        arc arc_tmp=arcs_save.front();
+                        segment seg_tmp=arc_tmp.getSegment();
+                        segment seg_tmp2(sommetvtmp[y],p.front());
+
+                        if(seg_tmp.operator ==(seg_tmp2)&&c[Nit][y]<=CurMin)//egalité + critère de test
+                        {
+                            qDebug()<<seg_tmp.getCoords().first<<seg_tmp.getCoords().second;
+                            qDebug()<<c[Nit][y];
+                            michel=sommetvtmp[y];
+                            CurMin=c[Nit][y];
+                        }
+                        arcs_save.pop_front();
+                    }
+
+                }
             }
-            ltemp.pop_back();
+            T_tmp.pop_front();
+
         }
-        p.push_front(michel);
-        S.push_front(michel);
-        qDebug()<<"On a deteminé le point à choisir à cette itération : ("<<michel.Xcoord()<<michel.Ycoord()<<")";
+        CurCVal=CurMin;
+        if(CurCVal!=INFINITY)
+        {
+            p.push_front(michel);
+            S.push_front(michel);
+        }
+        else
+        {
+            fini=true;
+            qDebug()<<"On degage";
+        }
+        qDebug()<<"On a deteminé le point à choisir à cette itération : ("<<michel.Xcoord()<<michel.Ycoord()<<") Il est à la dist"<<CurCVal;
 
         if (michel==B)
         {
@@ -419,26 +436,21 @@ void plotting::Dijkstra (pairsom pair)
             unsigned int T_taill=T.size();
             qDebug()<<"Taille de T"<<T.size();
             T.clear();
-            qDebug()<<"On supprime Michel de Tn";
+            qDebug()<<"On supprime Michel de T";
             int N=0;
             for (unsigned int m=0;m<T_taill;m++)
             {
 
-                if (T_temp.front().Xcoord()==michel.Xcoord()&&T_temp.front().Ycoord()==michel.Ycoord())
-                {
-
-                }
-
+                if (T_temp.front()==michel)
+                {            qDebug()<<"On supprime Michel qui vaut"<<michel.Xcoord()<<" "<<michel.Ycoord()<<"de T," ;}
                 else
                 {
                     T.push_front(T_temp.front());
                     N++;
-
                 }
-                qDebug()<<N;
+                //qDebug()<<N;
                 if (N==T_taill)
                 {
-
                     qDebug()<<"michel n'est pas dans le lot !Damned !";
                     fini=true;
                 }
@@ -448,34 +460,39 @@ void plotting::Dijkstra (pairsom pair)
             qDebug()<<"Taille de T"<<T.size();
             if (fini)
             {
-                qDebug()<<"Finiii";
+                qDebug()<<"Fini";
                 break;
             }
             else{
                 Nit++;
-                qDebug()<<"On recherche le "<<Nit<<"ieme michel dans le graphe";
+                qDebug()<<"On maj le tableau pour la"<<Nit<<"ieme fois";
                 l=graph->Recherche(michel);
-                std::list<sommet> points=sommetlist;
-                std::vector< std::pair<sommet,float> > l_temp3=l;
-                qDebug()<<"On met a jouur les poids";
-                for(int j2=0; j2<Npts; j2++)
 
+                for(int j2=0; j2<Npts; j2++)
                 {
-                    c[Nit][j2]=c[Nit-1][j2];
-                    if(l_temp3.back().first==points.front())
+                    //qDebug()<<"Modif d'un poids1";
+                    std::vector< std::pair<sommet,float> > l_temp3=l;
+                    //qDebug()<<"Modif d'un poids2";
+                    for(int j3=0; j3<l_temp3.size();j3++)
                     {
-                        if(c[Nit-1][j2]==INFINITY)
+                        //qDebug()<<"Modif d'un poids3";
+                        c[Nit][j2]=c[Nit-1][j2];
+
+                        if(l_temp3.back().first==sommets_save[j2])
                         {
-                            c[Nit][j2]=l_temp3.back().second;
-                        }
-                        else
-                        {
-                            c[Nit][j2]+=l_temp3.back().second;
+
+                            if (l_temp3.back().second+CurCVal<c[Nit-1][j2])
+                            {
+                                qDebug()<<"On baisse un poids"<<Nit<<j2<<c[Nit-1][j2]<<"->"<<CurCVal+l_temp3.back().second;
+                                c[Nit][j2]=CurCVal+l_temp3.back().second;
+                            }
+                            else
+                            {  }
                         }
                         l_temp3.pop_back();
+
                     }
-                    if (!points.empty())
-                    {points.pop_front();}
+
                 }
                 qDebug()<<"On a  mis les points à jour";
             }
@@ -485,18 +502,19 @@ void plotting::Dijkstra (pairsom pair)
 
     std::list<sommet> p_tmp=p;
     qDebug()<<p_tmp.size();
-    std::list<arc> arks;
+    std::list<arc> arks2;
     for (unsigned int i3=0;i3<p.size();i3++)
     {
+
         sommet sommet1_tmp=p_tmp.front();
         p_tmp.pop_front();
         sommet sommet2_tmp=p_tmp.front();
         segment seg_tmp(sommet1_tmp,sommet2_tmp);
         arc arc_tmp(seg_tmp);
-        arks.push_front(arc_tmp);
+        arks2.push_front(arc_tmp);
     }
-        qDebug()<<"On y est presque ! !";
-    grapheDijik->setGraph(arks);
+    qDebug()<<"On y est presque ! !";
+    grapheDijik->setGraph(arks2);
     qDebug()<<"Balance la sauce !";
 }
 
