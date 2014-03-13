@@ -35,7 +35,7 @@ void graphe::setGraph( std::list<arc> & _graph)
 
 std::vector< std::pair<sommet,float> > graphe::Recherche(sommet A)
 {
-        qDebug()<<"On entre ds Recherche";
+        //qDebug()<<"On entre ds Recherche";
     std::vector< std::pair<sommet,float> > l;
     std::list<arc> arclist=arcs;
     arc arctemp;
@@ -61,6 +61,6 @@ std::vector< std::pair<sommet,float> > graphe::Recherche(sommet A)
         arclist.pop_front();
     }
 
-    qDebug()<<"On est sorti de Recherche";
+    //qDebug()<<"On est sorti de Recherche";
     return l;
 }

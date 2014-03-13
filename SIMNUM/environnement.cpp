@@ -118,22 +118,15 @@ void environnement::setPoints(QString path,bool b,int mode)
                             double X=curSom.Xcoord();
                             double Y=curSom.Ycoord();
 
-                            double B_ant=fmod(atan(seg_ant.getCoords().second/seg_ant.getCoords().first),2*Pi);
-                            double B_ult=fmod(atan(seg_ult.getCoords().second/seg_ult.getCoords().first),2*Pi);
+                            double B_ant=atan(seg_ant.getCoords().second/seg_ant.getCoords().first);
+                            double B_ult=atan(seg_ult.getCoords().second/seg_ult.getCoords().first);
                             double alpha;
-                            if ((B_ant<0) == (B_ult<0))//same sign
-                            {
-                                alpha=2*Pi-std::abs(B_ant+B_ult);
-                            }
-                            else
-                            {
-                                alpha=B_ult-B_ant-Pi;
-                            }
+                                alpha=Pi-std::abs(B_ult-B_ant);
 
                             for(int k=0;(2*k*Pi/precision)<(std::abs(Pi-alpha));k++)
                             {
-                                double Xi=padding*cos(2*Pi*k/precision+(B_ant)+Pi/2);
-                                double Yi=padding*sin(2*Pi*k/precision+(B_ant)+Pi/2);
+                                double Xi=padding*cos(2*Pi*k/precision-(B_ant)+Pi/2);
+                                double Yi=padding*sin(2*Pi*k/precision-(B_ant)+Pi/2);
                                 sommet newSom(X+Xi,Y+Yi);
                                 soms.push_back(newSom);
 

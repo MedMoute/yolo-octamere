@@ -322,6 +322,7 @@ void plotting::Dijkstra (pairsom pair)
     std::vector<sommet> sommets;
     std::list<sommet> sommetlist;
     int n=obstacles.size();
+    std::list<sommet> T_temp;
     qDebug()<<"bite";
     sommets.push_back(A);
     for (int i=0; i<n; i++)
@@ -356,11 +357,15 @@ void plotting::Dijkstra (pairsom pair)
             if(l_temp2.back().first==sommetlist.back())
             {
                 c[0][j]=l_temp2.back().second;
+                std::cout<<c[0][j2]<<";";
             }
             l_temp2.pop_back();
         }
         sommets.pop_back();
+
+
     }
+    std::cout<<std::endl;
     T=sommetlist;
     T.pop_front();
     //Boucle ta race de mes deux
@@ -370,48 +375,40 @@ void plotting::Dijkstra (pairsom pair)
     while (!T.empty())
     {
         sommet michel;
-        qDebug()<<"On detemine le point à choisir à cette itération";
-
-
+        //qDebug()<<"On detemine le point à choisir à cette itération";
         std::list<sommet> T_tmp=T;
-
         float CurMin=INFINITY;
+        float Niter=0;
         //vérification que le point est toujours dans T
-        for(int z=0;z<T.size();z++)
+        sommets=sommets_save;
+        sommetlist.clear();
+        for(int j=0; j<Npts; j++)
         {
-            //  qDebug()<<"bite1";
-            std::vector<sommet> sommetvtmp=sommets_save;
-            // qDebug()<<sommetvtmp.size();
-            for(int y=0;y<sommets_save.size();y++)
+            sommetlist.push_back(sommets.back());
+
+            std::vector< std::pair<sommet,float> >l_temp2=l;
+            for(unsigned int j2=0;j2<l.size();j2++)
             {
-                // qDebug()<<"bite2";
-                if (sommetvtmp[y]==T_tmp.front())
+                T_tmp=T;
+                for (unsigned int m=0;m<T.size();m++)
                 {
-                    int sizesave=arks.size();
-                    std::list<arc>arcs_save=arks;
 
-                    for (int x=0;x<sizesave;x++)//Vérifie que le chemin a suivre fait partie du graphe
+                    if((l_temp2.back().first==sommetlist.back()&&c[Nit][j]<CurMin)&&T_tmp.front()==l_temp2.back().first)
                     {
-
-                        arc arc_tmp=arcs_save.front();
-                        segment seg_tmp=arc_tmp.getSegment();
-                        segment seg_tmp2(sommetvtmp[y],p.front());
-
-                        if(seg_tmp.operator ==(seg_tmp2)&&c[Nit][y]<=CurMin)//egalité + critère de test
-                        {
-                            qDebug()<<seg_tmp.getCoords().first<<seg_tmp.getCoords().second;
-                            qDebug()<<c[Nit][y];
-                            michel=sommetvtmp[y];
-                            CurMin=c[Nit][y];
-                        }
-                        arcs_save.pop_front();
+                        CurMin=l_temp2.back().second;
+                        michel=l_temp2.back().first;
+                    }
+                    else
+                    {
                     }
 
+                    T_tmp.pop_front();
                 }
+                l_temp2.pop_back();
             }
-            T_tmp.pop_front();
-
+            sommets.pop_back();
         }
+        qDebug()<<Niter;
         CurCVal=CurMin;
         if(CurCVal!=INFINITY)
         {
@@ -421,133 +418,127 @@ void plotting::Dijkstra (pairsom pair)
         else
         {
             fini=true;
-            qDebug()<<"On degage";
+            // qDebug()<<"On degage";
         }
-        qDebug()<<"On a deteminé le point à choisir à cette itération : ("<<michel.Xcoord()<<michel.Ycoord()<<") Il est à la dist"<<CurCVal;
-
+        //qDebug()<<"On a deteminé le point à choisir à cette itération : ("<<michel.Xcoord()<<michel.Ycoord()<<") Il est à la dist"<<CurCVal;
         if (michel==B)
         {
-            qDebug()<<"C'est la fete du slip";
+            //  qDebug()<<"C'est la fete du slip";
             break;
         }
         else
         {
-            std::list<sommet> T_temp=T;
+            T_temp=T;
             unsigned int T_taill=T.size();
-            qDebug()<<"Taille de T"<<T.size();
+            //  qDebug()<<"Taille de T"<<T.size();
             T.clear();
-            qDebug()<<"On supprime Michel de T";
+            //  qDebug()<<"On supprime Michel de T";
             int N=0;
             for (unsigned int m=0;m<T_taill;m++)
             {
 
                 if (T_temp.front()==michel)
-                {            qDebug()<<"On supprime Michel qui vaut"<<michel.Xcoord()<<" "<<michel.Ycoord()<<"de T," ;}
-                else
-                {
-                    T.push_front(T_temp.front());
-                    N++;
-                }
-                //qDebug()<<N;
-                if (N==T_taill)
-                {
-                    qDebug()<<"michel n'est pas dans le lot !Damned !";
-                    fini=true;
-                }
-                T_temp.pop_front();
-            }
-            qDebug()<<"On a supprimé Michel de T";
-            qDebug()<<"Taille de T"<<T.size();
-            if (fini)
-            {
-                qDebug()<<"Fini";
-                break;
-            }
-            else{
-                Nit++;
-                qDebug()<<"On maj le tableau pour la"<<Nit<<"ieme fois";
-                l=graph->Recherche(michel);
-
-                for(int j2=0; j2<Npts; j2++)
-                {
-                    //qDebug()<<"Modif d'un poids1";
-                    std::vector< std::pair<sommet,float> > l_temp3=l;
-                    //qDebug()<<"Modif d'un poids2";
-                    for(int j3=0; j3<l_temp3.size();j3++)
+                {}//{            qDebug()<<"On supprime Michel qui vaut"<<michel.Xcoord()<<" "<<michel.Ycoord()<<"de T," ;}
+                    else
                     {
-                        //qDebug()<<"Modif d'un poids3";
-                        c[Nit][j2]=c[Nit-1][j2];
-
-                        if(l_temp3.back().first==sommets_save[j2])
-                        {
-
-                            if (l_temp3.back().second+CurCVal<c[Nit-1][j2])
-                            {
-                                qDebug()<<"On baisse un poids"<<Nit<<j2<<c[Nit-1][j2]<<"->"<<CurCVal+l_temp3.back().second;
-                                c[Nit][j2]=CurCVal+l_temp3.back().second;
-                            }
-                            else
-                            {  }
-                        }
-                        l_temp3.pop_back();
-
+                        T.push_front(T_temp.front());
+                        N++;
                     }
-
+                    //qDebug()<<N;
+                    if (N==T_taill)
+                    {
+                        //            qDebug()<<"michel n'est pas dans le lot !Damned !";
+                        fini=true;
+                    }
+                    T_temp.pop_front();
                 }
-                qDebug()<<"On a  mis les points à jour";
+                //            qDebug()<<"On a supprimé Michel de T";
+                //          qDebug()<<"Taille de T"<<T.size();
+                if (fini)
+                {
+                    //             qDebug()<<"Fini";
+                    break;
+                }
+                else{
+                    Nit++;
+                    //              qDebug()<<"On maj le tableau pour la"<<Nit<<"ieme fois";
+                    l=graph->Recherche(michel);
+
+                   // l=graph->Recherche(A);
+                    for(int j=0; j<Npts; j++)
+                        sommets=sommets_save;
+                    sommetlist.clear();
+                    {
+                        sommetlist.push_back(sommets.back());
+
+                        std::vector< std::pair<sommet,float> >l_temp2=l;
+                        for(unsigned int j2=0;j2<l.size();j2++)
+                        {
+                            c[Nit][j2]=c[Nit-1][j2];
+                            if(l_temp2.back().first==sommetlist.back())
+                            {
+                                c[Nit][j2]=l_temp2.back().second+CurCVal;
+                            }
+                            std::cout<<c[Nit][j2]<<";";
+                            l_temp2.pop_back();
+                        }
+                        std::cout<<std::endl;
+                        sommets.pop_back();
+                    }
+                    //          qDebug()<<"On a  mis les points à jour";
+                }
             }
         }
-    }
-    qDebug()<<"On a fini la";
+       // qDebug()<<"On a fini la";
 
-    std::list<sommet> p_tmp=p;
-    qDebug()<<p_tmp.size();
-    std::list<arc> arks2;
-    for (unsigned int i3=0;i3<p.size();i3++)
+        std::list<sommet> p_tmp=p;
+        qDebug()<<p_tmp.size();
+        std::list<arc> arks2;
+        for (unsigned int i3=0;i3<p.size();i3++)
+        {
+
+            sommet sommet1_tmp=p_tmp.front();
+            p_tmp.pop_front();
+            sommet sommet2_tmp=p_tmp.front();
+            segment seg_tmp(sommet1_tmp,sommet2_tmp);
+            arc arc_tmp(seg_tmp);
+            arks2.push_front(arc_tmp);
+        }
+        qDebug()<<"On y est presque ! !";
+        grapheDijik->setGraph(arks2);
+        qDebug()<<"Balance la sauce !";
+    }
+
+    void plotting::drawGraphDijik ()
     {
+        std::list<arc> tmp_grph=grapheDijik->getGraph();
+        int l=tmp_grph.size();
 
-        sommet sommet1_tmp=p_tmp.front();
-        p_tmp.pop_front();
-        sommet sommet2_tmp=p_tmp.front();
-        segment seg_tmp(sommet1_tmp,sommet2_tmp);
-        arc arc_tmp(seg_tmp);
-        arks2.push_front(arc_tmp);
-    }
-    qDebug()<<"On y est presque ! !";
-    grapheDijik->setGraph(arks2);
-    qDebug()<<"Balance la sauce !";
-}
-
-void plotting::drawGraphDijik ()
-{
-    std::list<arc> tmp_grph=grapheDijik->getGraph();
-    int l=tmp_grph.size();
-
-    QCPCurveDataMap plot_data;
-    std::list<QCPCurve*> plot_list;
+        QCPCurveDataMap plot_data;
+        std::list<QCPCurve*> plot_list;
 
 
-    for (int i=0;i<l;i++)
-    {
-        QCPCurve* plot = new QCPCurve(customPlot->xAxis, customPlot->yAxis);
-        QCPCurveData data(0,tmp_grph.front().getSegment().getSommet().first.Xcoord(),tmp_grph.front().getSegment().getSommet().first.Ycoord());
-        plot_data.insert(0,data);
-        QCPCurveData data2(1,tmp_grph.front().getSegment().getSommet().second.Xcoord(),tmp_grph.front().getSegment().getSommet().second.Ycoord());
-        plot_data.insert(1,data2);
+        for (int i=0;i<l;i++)
+        {
+            QCPCurve* plot = new QCPCurve(customPlot->xAxis, customPlot->yAxis);
+            QCPCurveData data(0,tmp_grph.front().getSegment().getSommet().first.Xcoord(),tmp_grph.front().getSegment().getSommet().first.Ycoord());
+            plot_data.insert(0,data);
+            QCPCurveData data2(1,tmp_grph.front().getSegment().getSommet().second.Xcoord(),tmp_grph.front().getSegment().getSommet().second.Ycoord());
+            plot_data.insert(1,data2);
 
-        plot->addData(plot_data);
-        plot->setPen(QPen(Qt::black,3,Qt::DashLine));
+            plot->addData(plot_data);
+            plot->setPen(QPen(Qt::black,3,Qt::DashLine));
 
-        plot_list.push_back(plot);
+            plot_list.push_back(plot);
 
-        customPlot->addPlottable(plot_list.back());
+            customPlot->addPlottable(plot_list.back());
 
-        tmp_grph.pop_front();
+            tmp_grph.pop_front();
+
+        }
+        customPlot->setVisible(true);
+        customPlot->axisRect()->setupFullAxesBox();
+        customPlot->rescaleAxes();
+        customPlot->replot();
 
     }
-    customPlot->setVisible(true);
-    customPlot->axisRect()->setupFullAxesBox();
-    customPlot->rescaleAxes();
-    customPlot->replot();
-
-}
